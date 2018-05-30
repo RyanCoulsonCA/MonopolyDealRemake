@@ -24,13 +24,12 @@ public class Deck {
 					String[] properties = line.split("\\t");
 					
 					String name;
-					String type; 
+					String type;
+					String action;
 					int value;
 					Color color;
 					String[] prices;
-					
-					System.out.println(properties[1]);
-					
+
 					if(properties[1].equals("property")) {
 						name = properties[0];
 						type = properties[1];
@@ -49,8 +48,19 @@ public class Deck {
 						prices = new String[]{properties[4], properties[5], properties[6]};
 						
 						this.addCard(new PropertyCard(name, type, value, color, prices));
-					} else if(properties[1].equals("action")) {
+					} else if(properties[1].equals("action")) { // TODO: rent cards
+						name = properties[0];
+						type = properties[1];
+						value = Integer.parseInt(properties[2]);
+						action = properties[3];
 						
+						this.addCard(new ActionCard(name, type, value, action));
+					} else if(properties[1].equals("money")) {
+						name = properties[0];
+						type = properties[1];
+						value = Integer.parseInt(properties[2]);
+						
+						this.addCard(new MoneyCard(name, type, value));
 					}
 				}
 			}

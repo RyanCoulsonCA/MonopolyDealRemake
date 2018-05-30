@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-public class GamePanel extends JPanel implements Runnable  {
+public class GamePanel extends JPanel  {
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;
 	
@@ -26,25 +26,15 @@ public class GamePanel extends JPanel implements Runnable  {
 		setFocusable(true);
 		requestFocus();
 	}
-
-	public void init() {
-		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-		g = (Graphics2D) image.getGraphics();
-		running = true;
-	}
-	
-	public void run() {
-		init();
-		
-		while(running) {
-			System.out.println("test");
-		}
-	}
 	
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.fillRect(200, 62, 30, 10);
+    	Graphics2D g2 = (Graphics2D) g;
+    	int x;
+    	
+    	for(int i = 0; i < 5; i++) {
+    		g2.drawRect(5 + i*95, 5, 90, 150);
+    	}
     }
 	
 }

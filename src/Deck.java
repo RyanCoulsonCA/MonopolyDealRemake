@@ -49,7 +49,7 @@ public class Deck {
 						prices = new String[]{properties[4], properties[5], properties[6]};
 						
 						this.addCard(new PropertyCard(name, type, value, color, prices));
-					} else if(properties[1].equals("action")) { // TODO: rent cards
+					} else if(properties[1].equals("action")) {
 						name = properties[0];
 						type = properties[1];
 						value = Integer.parseInt(properties[2]);

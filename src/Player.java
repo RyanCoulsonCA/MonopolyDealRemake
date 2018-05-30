@@ -73,4 +73,26 @@ public class Player {
 		this.double_rent = b;
 	}
 	
+	public Card findCheapest() {
+		/* Return the cheapest property the player has placed on the board, otherwise
+		 * if the player has no properties, return null.
+		 */
+		
+		if(this.properties.size() == 0) {
+			return null;
+		}
+		
+		Card lowest = this.properties.get(0);
+		int lowest_val = this.properties.get(0).getValue();
+		
+		for(Card c: this.properties) {
+			if(c.getValue() < lowest_val) {
+				lowest = c;
+				lowest_val = c.getValue();
+			}
+		}
+		
+		return lowest;
+	}
+	
 }

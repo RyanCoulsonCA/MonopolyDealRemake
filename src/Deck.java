@@ -28,6 +28,7 @@ public class Deck {
 					String action;
 					int value;
 					Color color;
+					Color color_sec;
 					String[] prices;
 
 					if(properties[1].equals("property")) {
@@ -54,7 +55,25 @@ public class Deck {
 						value = Integer.parseInt(properties[2]);
 						action = properties[3];
 						
-						this.addCard(new ActionCard(name, type, value, action));
+						if(action.equals("rent")) {
+							String[] colors = properties[4].split(",");
+							int color_r = Integer.parseInt(colors[0]);
+							int color_g = Integer.parseInt(colors[1]);
+							int color_b = Integer.parseInt(colors[2]);
+							color = new Color(color_r, color_g, color_b);
+							
+							colors = properties[5].split(",");
+							color_r = Integer.parseInt(colors[0]);
+							color_g = Integer.parseInt(colors[1]);
+							color_b = Integer.parseInt(colors[2]);
+							color_sec = new Color(color_r, color_g, color_b);
+							
+							System.out.println(color + " " + color_sec);
+							
+							this.addCard(new RentCard(name, type, value, color, color_sec));
+						} else {
+							this.addCard(new ActionCard(name, type, value, action));	
+						}
 					} else if(properties[1].equals("money")) {
 						name = properties[0];
 						type = properties[1];

@@ -62,6 +62,9 @@ public class ImageButton {
 	}
 	
 	public void draw() {
+		Font old = g.getFont();
+		Color oldColor = g.getColor();
+		
 		g.setFont(new Font("Default", Font.BOLD, 23));
 		g.setStroke(new BasicStroke(0.1f));
 		g.setColor(Color.LIGHT_GRAY);
@@ -71,6 +74,9 @@ public class ImageButton {
 		if(text != null) {
 			g.drawString(text, xpos + width/2 - (text.length() * 6), ypos + 44);
 		}
+		
+		g.setFont(old);
+		g.setColor(oldColor);
 	}
 	
 	public boolean wasClicked(MouseEvent me) {	

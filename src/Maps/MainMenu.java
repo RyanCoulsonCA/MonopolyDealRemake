@@ -16,9 +16,10 @@ public class MainMenu extends ScreenState {
 	private BufferedImage bg, title, button_img;
 	private String[] buttons = {"Start Game", "Documentation", "Exit"};
 	private ArrayList<ImageButton> buttonBounds;
+	private StateManager sm;
 	
-	public MainMenu() {
-
+	public MainMenu(StateManager sm) {
+		this.sm = sm;
 	}
 	
 	@Override
@@ -58,7 +59,6 @@ public class MainMenu extends ScreenState {
 
 	@Override
 	public void mouseClicked(MouseEvent me) {
-		// TODO Auto-generated method stub
 		for(int i = 0; i < buttonBounds.size(); i++) {
 			if(buttonBounds.get(i).wasClicked(me)) {
 				if(buttons[i].equals("Exit")) {
@@ -69,8 +69,8 @@ public class MainMenu extends ScreenState {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-				} else {
-					System.out.println(buttons[i]);
+				} else if(buttons[i].equals("Start Game")) {
+					sm.setState(1);
 				}
 			}
 		}

@@ -1,23 +1,13 @@
 package main;
-import java.awt.BasicStroke;
+
 import java.awt.Color;
-import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import Maps.StateManager;
@@ -46,7 +36,12 @@ public class GamePanel extends JPanel implements MouseListener {
 	
     @Override
     public void paintComponent(Graphics g) {
+    	System.out.println("paint");
     	Graphics2D g2 = (Graphics2D) g;
+    	Font f = new Font("Default", Font.BOLD, 23);
+    	g.setFont(f);
+    	g.setColor(Color.WHITE);
+    	
     	sm.draw(g2);
     }
 
@@ -54,6 +49,8 @@ public class GamePanel extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent me) {
 		// TODO Auto-generated method stub
 		sm.mouseClicked(me);
+		this.repaint();
+		
 	}
 
 	@Override

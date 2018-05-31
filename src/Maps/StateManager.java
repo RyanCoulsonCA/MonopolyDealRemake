@@ -16,11 +16,17 @@ public class StateManager {
 		this.states = new ArrayList<ScreenState>();
 		this.currentState = MENU;
 		
-		this.states.add(new MainMenu());
+		this.states.add(new MainMenu(this));
+		this.states.add(new PlayerSelect(this));
 	}
 	
 	public void setState(int state) {
 		this.currentState = state;
+		System.out.println("Set state to " + state);
+	}
+	
+	public int getState() {
+		return this.currentState;
 	}
 	
 	public void draw(Graphics2D g) {

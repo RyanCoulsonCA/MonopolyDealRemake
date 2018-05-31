@@ -6,13 +6,17 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+
+import main.ImageButton;
 
 public class PlayerSelect extends ScreenState {
 
 	private StateManager sm;
 	private BufferedImage bg, title, button_img;
+	private ArrayList<ImageButton> buttonBounds;
 	
 	public PlayerSelect(StateManager sm) {
 		this.sm = sm;
@@ -20,6 +24,8 @@ public class PlayerSelect extends ScreenState {
 	
 	@Override
 	public void draw(Graphics2D g) {
+		this.buttonBounds = new ArrayList<ImageButton>();
+		
 		// Load images
     	try {
     		bg = ImageIO.read(new File("Assets/Images/temp_background.png"));
@@ -37,12 +43,18 @@ public class PlayerSelect extends ScreenState {
     	
     	// Draw text   	
     	g.drawString("Please select your country.", 360, 200);
+    	
+    	// Back button
+    	ImageButton ret = new ImageButton("Assets/Images/button_img.png", "Return to Menu", 365, 500, 300, 75, g);
+    	buttonBounds.add(ret);
+    	ret.draw();
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mouseClicked(MouseEvent me) {
+		if(buttonBounds.get(0).wasClicked(me)) {
+			sm.setState(0);
+		}
 	}
 
 	@Override

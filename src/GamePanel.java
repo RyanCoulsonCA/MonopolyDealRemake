@@ -30,7 +30,7 @@ public class GamePanel extends JPanel implements MouseListener {
 	
 	private BufferedImage bg, title, button_img;
 	private String[] buttons = {"Start Game", "Documentation", "Exit"};
-	private ArrayList<Shape> buttonBounds;
+	private ArrayList<ImageButton> buttonBounds;
 
 	public GamePanel() {
 		super();
@@ -44,7 +44,7 @@ public class GamePanel extends JPanel implements MouseListener {
     @Override
     public void paintComponent(Graphics g) {
     	Graphics2D g2 = (Graphics2D) g;
-		this.buttonBounds = new ArrayList<Shape>();
+		this.buttonBounds = new ArrayList<ImageButton>();
     	
     	// Load images
     	try {
@@ -64,16 +64,9 @@ public class GamePanel extends JPanel implements MouseListener {
     	// Draw buttons
     	int y_offset = 250;
     	for(String button: buttons) {
-    		g2.setFont(new Font("Default", Font.BOLD, 23));
-    		g2.setStroke(new BasicStroke(0.1f));
-    		g2.setColor(Color.LIGHT_GRAY);
-    		
-    		Rectangle btn = new Rectangle(365, y_offset+4, 293, 67);
-    		buttonBounds.add(btn);
-    		g2.draw(btn);
-    		
-    		g2.drawImage(button_img, 362, y_offset, null);
-    		g2.drawString(button, 512 - (button.length() * 6), y_offset + 44);
+    		ImageButton btn = new ImageButton("Assets/Images/button_img.png", button, 365, y_offset, 300, 75, g2);
+    		btn.draw();
+    		buttonBounds.add(btn);    		
     		y_offset += 90;
     	}
     }
@@ -82,7 +75,7 @@ public class GamePanel extends JPanel implements MouseListener {
 	public void mouseClicked(MouseEvent me) {
 		// TODO Auto-generated method stub
 		for(int i = 0; i < buttonBounds.size(); i++) {
-			if(buttonBounds.get(i).contains(me.getPoint())) {
+			if(buttonBounds.get(i).wasClicked(me)) {
 				if(buttons[i].equals("Exit")) {
 					System.exit(0);
 				} else if(buttons[i].equals("Documentation")) {

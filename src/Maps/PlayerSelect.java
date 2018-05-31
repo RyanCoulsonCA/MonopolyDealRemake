@@ -17,6 +17,8 @@ public class PlayerSelect extends ScreenState {
 	private StateManager sm;
 	private BufferedImage bg, title, button_img;
 	private ArrayList<ImageButton> buttonBounds;
+	private String[] buttons = {"Canada", "America", "China", "EU", "Russia", "UK", "Menu"};
+	private String[] images = {"canada_circle.png", "america_circle.png", "china_circle.png", "eu_circle.png", "russia_circle.png", "uk_circle.png"};
 	
 	public PlayerSelect(StateManager sm) {
 		this.sm = sm;
@@ -42,18 +44,44 @@ public class PlayerSelect extends ScreenState {
     	g.drawImage(title, 243, 50, null);
     	
     	// Draw text   	
-    	g.drawString("Please select your country.", 360, 200);
+    	g.drawString("PLAYER 1: Please select your country.", 290, 200);
+    	
+    	// Draw country buttons
+    	int btn_x = 290;
+    	int btn_y = 220;
+    	
+    	for(int i = 0; i < 6; i++) {
+    		if(i == 3) {
+    			btn_y += 150;
+    			btn_x = 290;
+    		}
+    		
+    		ImageButton btn = new ImageButton("Assets/Images/"+images[i], btn_x, btn_y, 125, 125, g);
+    		buttonBounds.add(btn);
+    		btn.draw();
+    		btn_x += 150;
+    	}
     	
     	// Back button
-    	ImageButton ret = new ImageButton("Assets/Images/button_img.png", "Return to Menu", 365, 500, 300, 75, g);
+    	ImageButton ret = new ImageButton("Assets/Images/button_img.png", "Return to Menu", 365, 550, 300, 75, g);
     	buttonBounds.add(ret);
     	ret.draw();
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent me) {
-		if(buttonBounds.get(0).wasClicked(me)) {
-			sm.setState(0);
+		for(int i = 0; i < buttonBounds.size(); i++) {
+			if(buttonBounds.get(i).wasClicked(me)) {
+				if(buttons[i].equals("Menu")) {
+					sm.reset();
+				} else {
+					if(images[i] != "hide_circle.png") {
+						System.out.println("button pressed");
+						images[i] = "hide_circle.png";
+					}
+				}
+
+			}
 		}
 	}
 

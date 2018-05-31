@@ -20,6 +20,14 @@ public class StateManager {
 		this.states.add(new PlayerSelect(this));
 	}
 	
+	public void reset() {
+		this.states = new ArrayList<ScreenState>();
+		this.currentState = MENU;
+		
+		this.states.add(new MainMenu(this));
+		this.states.add(new PlayerSelect(this));		
+	}
+	
 	public void setState(int state) {
 		this.currentState = state;
 		System.out.println("Set state to " + state);

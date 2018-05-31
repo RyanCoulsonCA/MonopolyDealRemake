@@ -15,6 +15,7 @@ public class ImageButton {
 	private int width, height, xpos, ypos;
 	private Graphics2D g;
 	private String text;
+	private boolean enabled;
 	
 	public ImageButton(String image, int xpos, int ypos, int width, int height, Graphics2D g) {
 		try {
@@ -28,6 +29,7 @@ public class ImageButton {
 		this.xpos = xpos;
 		this.ypos = ypos;
 		this.g = g;
+		this.enabled = true;
 	}
 	
 	public ImageButton(String image, String text, int xpos, int ypos, int width, int height, Graphics2D g) {
@@ -43,6 +45,7 @@ public class ImageButton {
 		this.ypos = ypos;
 		this.text = text;
 		this.g = g;
+		this.enabled = true;
 	}
 	
 	public int getWidth() {
@@ -61,9 +64,20 @@ public class ImageButton {
 		return this.ypos;
 	}
 	
+	public void setEnabled(boolean e) {
+		this.enabled = e;
+	}
+	
+	public boolean isEnabled() {
+		return this.enabled;
+	}
+	
 	public void draw() {
 		Font old = g.getFont();
 		Color oldColor = g.getColor();
+		
+		Rectangle rect = new Rectangle(xpos, ypos, width, height);
+		g.draw(rect);
 		
 		g.setFont(new Font("Default", Font.BOLD, 23));
 		g.setStroke(new BasicStroke(0.1f));
@@ -79,7 +93,11 @@ public class ImageButton {
 		g.setColor(oldColor);
 	}
 	
-	public boolean wasClicked(MouseEvent me) {	
+	public boolean wasClicked(MouseEvent me) {
+		if(!this.enabled) {
+			return false;
+		}
+		
 		if(me.getX() >= xpos && me.getX() <= (xpos + width)) {
 			if(me.getY() >= ypos && me.getY() <= (ypos+height)) {
 				return true;

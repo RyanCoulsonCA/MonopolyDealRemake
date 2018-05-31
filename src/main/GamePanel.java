@@ -15,6 +15,7 @@ import Maps.StateManager;
 public class GamePanel extends JPanel implements MouseListener {
 	public static final int WIDTH = 1024;
 	public static final int HEIGHT = 650;
+	public static final float VERSION = 0.1f;
 	
 	/**
 	 * 
@@ -38,11 +39,12 @@ public class GamePanel extends JPanel implements MouseListener {
     public void paintComponent(Graphics g) {
     	System.out.println("paint");
     	Graphics2D g2 = (Graphics2D) g;
-    	Font f = new Font("Default", Font.BOLD, 23);
+    	Font f = new Font("Default", Font.PLAIN, 14);
     	g.setFont(f);
     	g.setColor(Color.WHITE);
     	
     	sm.draw(g2);
+    	g2.drawString("Current Version " + VERSION, 10,640);
     }
 
 	@Override

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import main.ImageButton;
+import main.Player;
 
 public class PlayerSelect extends ScreenState {
 
@@ -19,9 +20,17 @@ public class PlayerSelect extends ScreenState {
 	private ArrayList<ImageButton> buttonBounds;
 	private String[] buttons = {"Canada", "America", "China", "EU", "Russia", "UK", "Menu"};
 	private String[] images = {"canada_circle.png", "america_circle.png", "china_circle.png", "eu_circle.png", "russia_circle.png", "uk_circle.png"};
+	private Player playerOne, playerTwo;
+	private int counter;
+	private String prompt;
 	
 	public PlayerSelect(StateManager sm) {
 		this.sm = sm;
+
+		this.playerOne = sm.getPlayerOne();
+		this.playerTwo = sm.getPlayerTwo();
+		this.counter = 0;
+		this.prompt = "Player One: Please select your country.";
 	}
 	
 	@Override
@@ -44,7 +53,7 @@ public class PlayerSelect extends ScreenState {
     	g.drawImage(title, 243, 50, null);
     	
     	// Draw text   	
-    	g.drawString("PLAYER 1: Please select your country.", 290, 200);
+    	g.drawString(this.prompt, 290, 200);
     	
     	// Draw country buttons
     	int btn_x = 290;
@@ -76,8 +85,15 @@ public class PlayerSelect extends ScreenState {
 					sm.reset();
 				} else {
 					if(images[i] != "hide_circle.png") {
-						System.out.println("button pressed");
+						if(counter == 0) {
+							this.playerOne.setCountry(buttons[i]);
+							this.prompt = "Player Two: Please select your country.";
+						} else if(counter == 1) {
+							this.playerTwo.setCountry(buttons[i]);
+							sm.setState(2);
+						}
 						images[i] = "hide_circle.png";
+						counter++;
 					}
 				}
 

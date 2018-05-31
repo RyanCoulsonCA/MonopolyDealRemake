@@ -1,3 +1,4 @@
+package main;
 public class Card {
 
 	private String name;

@@ -1,3 +1,4 @@
+package main;
 import java.awt.Color;
 
 public class RentCard extends Card {

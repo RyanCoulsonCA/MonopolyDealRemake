@@ -1,3 +1,4 @@
+package main;
 public class ActionCard extends Card {
 	private String action;
 	

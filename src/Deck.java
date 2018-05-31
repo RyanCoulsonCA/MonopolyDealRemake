@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Deck {
 
@@ -68,8 +69,6 @@ public class Deck {
 							color_b = Integer.parseInt(colors[2]);
 							color_sec = new Color(color_r, color_g, color_b);
 							
-							System.out.println(color + " " + color_sec);
-							
 							this.addCard(new RentCard(name, type, value, color, color_sec));
 						} else {
 							this.addCard(new ActionCard(name, type, value, action));	
@@ -96,6 +95,10 @@ public class Deck {
 		this.cards.add(card);
 	}
 	
+	public Card pop() {
+		return this.cards.remove(0);
+	}
+	
 	public ArrayList<Card> getDeck() {
 		return this.cards;
 	}
@@ -104,10 +107,16 @@ public class Deck {
 		return this.cards.size();
 	}
 	
+	public void shuffle() {
+		Collections.shuffle(this.cards);
+	}
+	
 	public static void main(String[] args) {
 		Deck deck = new Deck("Assets/test.txt");
 		deck.parseDeck();
 		
-		System.out.println("Deck size: " + deck.getDeckSize());
+		deck.shuffle();
+		
+		System.out.println("Deck size: " + deck.getDeckSize());	
 	}
 }

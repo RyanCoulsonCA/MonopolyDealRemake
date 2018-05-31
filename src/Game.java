@@ -9,8 +9,8 @@ public class Game {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setContentPane(new GamePanel());
 		frame.setResizable(false);
-		frame.setLocationRelativeTo(null);
 		frame.pack();
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
 	

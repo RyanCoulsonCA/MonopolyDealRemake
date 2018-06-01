@@ -3,6 +3,7 @@ import java.util.ArrayList;
 
 public class Player {
 	private String country;
+	private String image;
 	private ArrayList<Card> hand;
 	private ArrayList<Card> properties;
 	private int treasury;
@@ -11,6 +12,7 @@ public class Player {
 	
 	public Player() {
 		this.country = "Undecided";
+		this.treasury = 10000;
 		this.hand = new ArrayList<Card>();
 	}
 	
@@ -72,6 +74,14 @@ public class Player {
 	
 	public void setDoubleRent(boolean b) {
 		this.double_rent = b;
+	}
+	
+	public void setImage(String img) {
+		this.image = img;
+	}
+	
+	public String getImage() {
+		return this.image;
 	}
 	
 	public Card findCheapest() {

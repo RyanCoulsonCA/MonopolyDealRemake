@@ -1,5 +1,7 @@
 package Maps;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -8,13 +10,19 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
+import main.Player;
+
 public class GameState extends ScreenState {
 
 	private StateManager sm;
-	private BufferedImage bg, title, button_img;
+	private BufferedImage bg, title, button_img, playerOneImg, playerTwoImg;
+	private Player playerOne, playerTwo;
+	private Font user;
 	
 	public GameState(StateManager sm) {
 		this.sm = sm;
+		this.playerOne = sm.getPlayerOne();
+		this.playerTwo = sm.getPlayerTwo();
 	}
 	
 	@Override
@@ -30,11 +38,53 @@ public class GameState extends ScreenState {
     		bg = ImageIO.read(new File("Assets/Images/temp_background.png"));
     		title = ImageIO.read(new File("Assets/Images/temp_logo.png"));
     		button_img = ImageIO.read(new File("Assets/Images/button_img.png"));
+    		
+    		playerOneImg = ImageIO.read(new File("Assets/Images/i"+this.playerOne.getImage()));
+    		playerTwoImg = ImageIO.read(new File("Assets/Images/i"+this.playerTwo.getImage()));
+    		
     	} catch(Exception e) {
     		e.printStackTrace();
     	}
     	
+    	Font reg = g.getFont();
+    	Color regc = g.getColor();
+    	
+    	// Background
     	g.drawImage(bg, 0, 0, null);
+    	
+    	// Logo
+    	g.drawImage(title, 243, 30, null);
+    	
+    	// First Player
+    	g.drawImage(playerOneImg, 25, 25, null);
+    	   
+    	g.setFont(new Font("Dialog", Font.PLAIN, 16));
+    	g.drawString(this.playerOne.getCountry(), 80, 45);
+    	
+    	g.setFont(new Font("DialogInput", Font.PLAIN, 16));
+    	g.setColor(Color.GREEN);
+    	g.drawString("$"+this.playerOne.getTreasury(), 80, 65);
+    	
+    	g.setFont(reg);
+    	g.setColor(regc);
+    	
+    	// Second Player
+    	g.drawImage(playerTwoImg, 950, 25, null);
+    	
+    	g.setFont(new Font("Dialog", Font.PLAIN, 16));   	   
+    	if(this.playerTwo.getCountry().equals("Canada")) {
+        	g.drawString(this.playerTwo.getCountry(), 880, 45);	
+    	} else {
+    		g.drawString(this.playerTwo.getCountry(), 880 + (7 - this.playerTwo.getCountry().length())*7, 45);	
+    	}
+
+    	
+    	g.setFont(new Font("DialogInput", Font.PLAIN, 16));
+    	g.setColor(Color.GREEN);
+    	g.drawString("$"+this.playerTwo.getTreasury(), 926 - Integer.toString(this.playerTwo.getTreasury()).length()*9, 65);
+    	
+    	g.setFont(reg);
+    	g.setColor(regc);
 	}
 	
 	@Override

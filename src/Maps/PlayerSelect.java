@@ -87,9 +87,11 @@ public class PlayerSelect extends ScreenState {
 					if(images[i] != "hide_circle.png") {
 						if(counter == 0) {
 							this.playerOne.setCountry(buttons[i]);
+							this.playerOne.setImage(images[i]);
 							this.prompt = "Player Two: Please select your country.";
 						} else if(counter == 1) {
 							this.playerTwo.setCountry(buttons[i]);
+							this.playerTwo.setImage(images[i]);
 							sm.setState(2);
 						}
 						images[i] = "hide_circle.png";

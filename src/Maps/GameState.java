@@ -10,6 +10,8 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
+import main.ActionCard;
+import main.Card;
 import main.Deck;
 import main.Player;
 
@@ -67,9 +69,14 @@ public class GameState extends ScreenState {
     	g.drawImage(title, 387, 30, null);
     	
     	// First Player
+    	g.setFont(new Font("Dialog", Font.PLAIN, 10));
+    	g.setColor(Color.LIGHT_GRAY);
+    	g.drawString("Player One", 22, 20);
+    	
     	g.drawImage(playerOneImg, 25, 25, null);
     	   
     	g.setFont(new Font("Dialog", Font.PLAIN, 16));
+    	g.setColor(regc);
     	g.drawString(this.playerOne.getCountry(), 80, 45);
     	
     	g.setFont(new Font("DialogInput", Font.PLAIN, 16));
@@ -80,9 +87,14 @@ public class GameState extends ScreenState {
     	g.setColor(regc);
     	
     	// Second Player
+    	g.setFont(new Font("Dialog", Font.PLAIN, 10));
+    	g.setColor(Color.LIGHT_GRAY);
+    	g.drawString("Player Two", 947, 20);
+    	
     	g.drawImage(playerTwoImg, 950, 25, null);
     	
-    	g.setFont(new Font("Dialog", Font.PLAIN, 16));   	   
+    	g.setFont(new Font("Dialog", Font.PLAIN, 16));  
+    	g.setColor(regc);
     	if(this.playerTwo.getCountry().equals("Canada")) {
         	g.drawString(this.playerTwo.getCountry(), 880, 45);	
     	} else {
@@ -93,9 +105,15 @@ public class GameState extends ScreenState {
     	g.setFont(new Font("DialogInput", Font.PLAIN, 16));
     	g.setColor(Color.GREEN);
     	g.drawString("$"+this.playerTwo.getTreasury(), 926 - Integer.toString(this.playerTwo.getTreasury()).length()*9, 65);
-    	
+
     	g.setFont(reg);
     	g.setColor(regc);
+    	
+    	new ActionCard("Double Tarrifs", "action", 5, "rent").draw(g, 250, 250);
+    	new ActionCard("Territory", "action", 5, "rent").draw(g, 400, 250);
+    	new ActionCard("Blitzkrieg", "action", 5, "rent").draw(g, 550, 250);
+    	new ActionCard("Quick Ambush", "action", 5, "rent").draw(g, 700, 250);
+    	new ActionCard("Economic Boom", "action", 5, "rent").draw(g, 850, 250);
 	}
 	
 	@Override

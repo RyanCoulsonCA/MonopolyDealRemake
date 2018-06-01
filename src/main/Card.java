@@ -1,9 +1,12 @@
 package main;
+
+import java.awt.Graphics2D;
+
 public class Card {
 
-	private String name;
-	private String type;
-	private int value;
+	protected String name;
+	protected String type;
+	protected int value;
 	
 	public Card(String name, String type, int value) {
 		this.name = name;
@@ -14,4 +17,5 @@ public class Card {
 	public String getName() { return this.name; }
 	public String getType() { return this.type; }
 	public int getValue() { return this.value; }
+	public void draw(Graphics2D g, int x, int y) { };
 }

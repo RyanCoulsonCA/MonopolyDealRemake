@@ -10,6 +10,7 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
+import main.Deck;
 import main.Player;
 
 public class GameState extends ScreenState {
@@ -23,6 +24,16 @@ public class GameState extends ScreenState {
 		this.sm = sm;
 		this.playerOne = sm.getPlayerOne();
 		this.playerTwo = sm.getPlayerTwo();
+		
+		Deck deck = new Deck("Assets/test.txt");
+		deck.parseDeck();
+		deck.shuffle();
+		
+		// Deal cards
+		for(int i = 0; i < 3; i++) {
+			this.playerOne.addHand(deck.pop());
+			this.playerTwo.addHand(deck.pop());
+		}
 	}
 	
 	@Override
@@ -36,7 +47,7 @@ public class GameState extends ScreenState {
     	// Load images
     	try {
     		bg = ImageIO.read(new File("Assets/Images/temp_background.png"));
-    		title = ImageIO.read(new File("Assets/Images/temp_logo.png"));
+    		title = ImageIO.read(new File("Assets/Images/logo_small.png"));
     		button_img = ImageIO.read(new File("Assets/Images/button_img.png"));
     		
     		playerOneImg = ImageIO.read(new File("Assets/Images/i"+this.playerOne.getImage()));
@@ -53,7 +64,7 @@ public class GameState extends ScreenState {
     	g.drawImage(bg, 0, 0, null);
     	
     	// Logo
-    	g.drawImage(title, 243, 30, null);
+    	g.drawImage(title, 387, 30, null);
     	
     	// First Player
     	g.drawImage(playerOneImg, 25, 25, null);

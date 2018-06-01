@@ -14,6 +14,7 @@ public class Player {
 		this.country = "Undecided";
 		this.treasury = 10000;
 		this.hand = new ArrayList<Card>();
+		this.properties = new ArrayList<Card>();
 	}
 	
 	public String getCountry() {

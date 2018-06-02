@@ -2,6 +2,7 @@ package main;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.image.BufferedImage;
@@ -60,16 +61,16 @@ public class PropertyCard extends Card {
 			g.drawImage(wild, x+3, y+5, null);
 		}
 		// Draw card name
+		g.setStroke(oldStroke);
+		
 		g.setFont(new Font("Dialog", Font.PLAIN, 13));
 		
-		if(this.name.length() <= 10) {
-			g.drawString(this.name, x + 58 - this.name.length() * 4, y + 25);
-		} else {
-			g.drawString(this.name, x + 54 - this.name.length() * 4, y + 25);
-		}
+		FontMetrics fm = g.getFontMetrics();
+		g.drawString(this.name, x + 52 - fm.stringWidth(this.name)/2, y + 25);
+
 		
 		// Draw prices
-		g.setStroke(oldStroke);
+
 		
 		if(this.type != "wild") {
 			int temp = y+50;

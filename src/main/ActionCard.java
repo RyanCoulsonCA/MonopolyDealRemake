@@ -3,6 +3,7 @@ package main;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
@@ -35,15 +36,11 @@ public class ActionCard extends Card {
 		g.drawString(Integer.toString(this.value) + "M", x+5, y+15);
 
 		// Draw card name
-		g.setFont(new Font("Dialog", Font.PLAIN, 13));
+		FontMetrics fm = g.getFontMetrics();
 		
-		if(this.name.length() <= 10) {
-			g.drawString(this.name, x + 62 - this.name.length() * 4, y + 75);
-		} else if(this.name.length() <= 12){
-			g.drawString(this.name, x + 54 - this.name.length() * 4, y + 75);
-		} else {
-			g.drawString(this.name, x + 70 - this.name.length() * 5, y + 75);
-		}
+		g.setFont(new Font("Dialog", Font.PLAIN, 13));
+		g.drawString(this.name, x + 52 - fm.stringWidth(this.name)/2, y + 75);
+		
 		// Draw card type
 		g.setFont(new Font("Dialog", Font.PLAIN, 11));
 		g.drawString("action card", x + 23, y + 150);

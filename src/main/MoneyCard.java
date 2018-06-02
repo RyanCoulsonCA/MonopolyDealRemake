@@ -36,7 +36,7 @@ public class MoneyCard extends Card {
 		FontMetrics fm = g.getFontMetrics();
 		
 		//if(this.name.length() <= 10) {
-			g.drawString(this.name, x + 47 - (fm.stringWidth(this.name))/2, y + 75);
+			g.drawString(this.name, x + 50 - (fm.stringWidth(this.name))/2, y + 75);
 		//} 
 		
 		/*else if(this.name.length() <= 12){

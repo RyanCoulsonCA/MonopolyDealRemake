@@ -4,10 +4,15 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
 
 public class PropertyCard extends Card {
 	private Color color;
 	private String[] prices; // the rent amount when owning one, two or three properties
+	private BufferedImage wild;
 	
 	public PropertyCard(String name, String type, int value, Color color, String[] prices) {
 		super(name, type, value);
@@ -27,6 +32,12 @@ public class PropertyCard extends Card {
 		Color oldColor = g.getColor();
 		Font oldFont = g.getFont();
 		Stroke oldStroke = g.getStroke();
+
+		try {
+			wild = ImageIO.read(new File("Assets/Images/wildcard_img.png"));		
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 		
 		// Draw physical card
@@ -38,12 +49,16 @@ public class PropertyCard extends Card {
 		g.drawRect(x, y, 100, 160);
 		
 		// Draw property
-		g.setColor(this.color);
-		g.fillRect(x+4, y + 5, 92, 30);
 		
-		g.setColor(Color.BLACK);
-		g.drawRect(x+4, y+5, 92, 30);
-		
+		if(this.type != "wild") {
+			g.setColor(this.color);
+			g.fillRect(x+4, y + 5, 92, 30);	
+
+			g.setColor(Color.BLACK);
+			g.drawRect(x+4, y+5, 92, 30);
+		} else {
+			g.drawImage(wild, x+3, y+5, null);
+		}
 		// Draw card name
 		g.setFont(new Font("Dialog", Font.PLAIN, 13));
 		
@@ -60,7 +75,7 @@ public class PropertyCard extends Card {
 		for(int i = 0; i < this.prices.length; i++) {
 			g.drawRect(x+5, temp, 20, 20);
 			g.drawString(Integer.toString(i+1), x+12, temp+15);
-			
+		
 			if(i == this.prices.length-1) {
 				g.setFont(new Font("Dialog", Font.PLAIN, 10));
 				g.drawString("full set", x+32,temp+6);
@@ -68,6 +83,7 @@ public class PropertyCard extends Card {
 			
 			g.setFont(new Font("Dialog", Font.PLAIN, 13));
 			g.drawString("........", x+32, temp+10);
+			g.setFont(new Font("Dialog", Font.PLAIN, 12));
 			g.drawString(this.prices[i] + "M", x+67, temp+13);
 			temp+= 25;
 		}

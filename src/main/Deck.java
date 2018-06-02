@@ -46,6 +46,7 @@ public class Deck {
 							color = new Color(color_r, color_g, color_b);
 						} else {
 							color = Color.BLACK;
+							type = "wild";
 						}
 						
 						prices = new String[]{properties[4], properties[5], properties[6]};

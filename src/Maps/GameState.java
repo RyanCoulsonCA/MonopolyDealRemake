@@ -22,11 +22,12 @@ import main.Player;
 public class GameState extends ScreenState {
 
 	private BufferedImage bg, title, playerOneImg, playerTwoImg;
-	private Player currentPlayer, playerOne, playerTwo;
+	private Player currentPlayer, otherPlayer, playerOne, playerTwo;
 	private int turn;
 	private ArrayList<ImageButton> buttonBounds;
 	private ArrayList<CardButton> cardBounds;
 	private String[] buttons = new String[] {"next", "quit"};
+	private Deck deck;
 	
 	public GameState(StateManager sm) {
 		this.sm = sm;
@@ -34,16 +35,17 @@ public class GameState extends ScreenState {
 		this.playerTwo = sm.getPlayerTwo();
 		this.turn = 0; // 0 = player 1, 1 = player 2
 		this.currentPlayer = this.playerOne;
+		this.otherPlayer = this.playerTwo;
 		
 		this.buttonBounds = new ArrayList<ImageButton>();
 		this.cardBounds = new ArrayList<CardButton>();
 		
-		Deck deck = new Deck("Assets/base_deck.txt");
-		deck.parseDeck();
-		deck.shuffle();
+		this.deck = new Deck("Assets/base_deck.txt");
+		this.deck.parseDeck();
+		this.deck.shuffle();
 		
 		// Deal cards
-		for(int i = 0; i < 7; i++) {
+		for(int i = 0; i < 3; i++) {
 			this.playerOne.addHand(deck.pop());
 			this.playerTwo.addHand(deck.pop());
 		}
@@ -58,14 +60,7 @@ public class GameState extends ScreenState {
 	@Override
 	public void draw(Graphics2D g) {
 		if(this.currentPlayer.getMovesLeft() == 0) {
-			this.currentPlayer.setMovesLeft(3);
-			if(this.turn == 0) {
-				this.turn = 1;
-				this.currentPlayer = this.playerTwo;
-			} else {
-				this.turn = 0;
-				this.currentPlayer = this.playerOne;
-			}
+			this.nextTurn();
 		}
 		
 		this.buttonBounds = new ArrayList<ImageButton>();
@@ -192,6 +187,26 @@ public class GameState extends ScreenState {
     	}
 	}
 	
+	public void nextTurn() {
+		this.currentPlayer.setMovesLeft(3);
+		
+		for(int i = 0; i < 2; i++) {
+			if(this.currentPlayer.getHand().size() < 7) {
+				this.currentPlayer.addHand(this.deck.pop());
+			}
+		}
+		
+		if(this.turn == 0) {
+			this.turn = 1;
+			this.currentPlayer = this.playerTwo;
+			this.otherPlayer = this.playerOne;
+		} else {
+			this.turn = 0;
+			this.currentPlayer = this.playerOne;
+			this.otherPlayer = this.playerTwo;
+		}
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent me) {
 		if(SwingUtilities.isLeftMouseButton(me)) {
@@ -199,13 +214,7 @@ public class GameState extends ScreenState {
 			for(int i = 0; i < this.buttonBounds.size(); i++) {
 				if(this.buttonBounds.get(i).wasClicked(me)) {
 					if(this.buttons[i].equals("next")) {
-						if(this.turn == 0) {
-							this.turn = 1; 
-							this.currentPlayer = this.playerTwo;
-						} else {
-							this.turn = 0;
-							this.currentPlayer = this.playerOne;
-						}
+						this.nextTurn();
 					} else if(this.buttons[i].equals("quit")) {
 						System.exit(0);
 					}
@@ -218,7 +227,8 @@ public class GameState extends ScreenState {
 			Card card = cardBtn.getCard();
 			
 			if(cardBtn.wasLeftClicked(me)) {
-				System.out.println("Card clicked!");
+				card.use(this.currentPlayer, this.otherPlayer);
+				this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
 			} else if(cardBtn.wasRightClicked(me)) {
 				card.bank(this.currentPlayer);
 				this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);

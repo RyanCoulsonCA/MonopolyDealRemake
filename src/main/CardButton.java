@@ -7,7 +7,6 @@ import javax.swing.SwingUtilities;
 
 public class CardButton {
 	private int width, height, xpos, ypos;
-	private Graphics2D g;
 	private Card card;
 	
 	public CardButton(Card c, int w, int h, int xpos, int ypos, Graphics2D g) {
@@ -16,9 +15,6 @@ public class CardButton {
 		this.height = h;
 		this.xpos = xpos;
 		this.ypos = ypos;
-		this.g = g;
-		
-		g.drawRect(xpos, ypos, width, height);
 	}
 	
 	public Card getCard() {

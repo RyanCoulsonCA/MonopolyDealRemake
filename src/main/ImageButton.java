@@ -78,7 +78,7 @@ public class ImageButton {
 		Color oldColor = g.getColor();
 		
 		Rectangle rect = new Rectangle(xpos, ypos, width, height);
-		//g.draw(rect);
+		g.draw(rect);
 		
 		g.setFont(new Font("Default", Font.BOLD, 23));
 		g.setStroke(new BasicStroke(0.1f));

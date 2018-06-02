@@ -10,6 +10,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 import main.ActionCard;
+import main.Card;
 import main.Deck;
 import main.Player;
 import main.PropertyCard;
@@ -18,11 +19,13 @@ public class GameState extends ScreenState {
 
 	private BufferedImage bg, title, playerOneImg, playerTwoImg;
 	private Player playerOne, playerTwo;
+	private int turn;
 	
 	public GameState(StateManager sm) {
 		this.sm = sm;
 		this.playerOne = sm.getPlayerOne();
 		this.playerTwo = sm.getPlayerTwo();
+		this.turn = 0; // 0 = player 1, 1 = player 2
 		
 		Deck deck = new Deck("Assets/test.txt");
 		deck.parseDeck();
@@ -105,11 +108,21 @@ public class GameState extends ScreenState {
     	g.setFont(reg);
     	g.setColor(regc);
     	
+    	/*
     	new ActionCard("Double Tarrifs", "action", 5, "rent").draw(g, 250, 250);
     	new ActionCard("Territory", "action", 5, "rent").draw(g, 400, 250);
     	new ActionCard("Blitzkrieg", "action", 5, "rent").draw(g, 550, 250);
     	new ActionCard("Quick Ambush", "action", 5, "rent").draw(g, 700, 250);
     	new PropertyCard("Toronto", "wild", 5, new Color(247,126,35), new String[] {"5","10","20"}).draw(g, 850, 250);
+    	*/
+    	
+    	if(this.turn == 0) {
+    		int x_offset = 200;
+    		for(Card c: this.playerOne.getHand()) {
+    			c.draw(g, x_offset, 450);
+    			x_offset += 110;
+    		}
+    	}
 	}
 	
 	@Override

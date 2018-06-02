@@ -74,19 +74,21 @@ public class PropertyCard extends Card {
 		if(this.type != "wild") {
 			int temp = y+50;
 			for(int i = 0; i < this.prices.length; i++) {
-				g.drawRect(x+5, temp, 20, 20);
-				g.drawString(Integer.toString(i+1), x+12, temp+15);
-			
-				if(i == this.prices.length-1) {
-					g.setFont(new Font("Dialog", Font.PLAIN, 10));
-					g.drawString("full set", x+32,temp+6);
-				}
+				if(!this.prices[i].equals("n/a")) {
+					g.drawRect(x+5, temp, 20, 20);
+					g.drawString(Integer.toString(i+1), x+12, temp+15);
 				
-				g.setFont(new Font("Dialog", Font.PLAIN, 13));
-				g.drawString("........", x+32, temp+10);
-				g.setFont(new Font("Dialog", Font.PLAIN, 12));
-				g.drawString(this.prices[i] + "M", x+67, temp+13);
-				temp+= 25;
+					if(i == this.prices.length-1 || this.prices[i+1].equals("n/a")) {
+						g.setFont(new Font("Dialog", Font.PLAIN, 10));
+						g.drawString("full set", x+32,temp+6);
+					}
+					
+					g.setFont(new Font("Dialog", Font.PLAIN, 13));
+					g.drawString("........", x+32, temp+10);
+					g.setFont(new Font("Dialog", Font.PLAIN, 12));
+					g.drawString(this.prices[i] + "M", x+67, temp+13);
+					temp+= 25;
+				}
 			}
 		} else {
 			g.setFont(new Font("Dialog", Font.PLAIN, 11));

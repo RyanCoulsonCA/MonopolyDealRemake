@@ -11,6 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.SwingUtilities;
 
 import main.Card;
 import main.Deck;
@@ -74,7 +75,7 @@ public class GameState extends ScreenState {
     	g.drawImage(bg, 0, 0, null);
     	
     	// Logo
-    	g.drawImage(title, 387, 30, null);
+    	g.drawImage(title, 387, 20, null);
     	
     	// First Player
     	g.setFont(new Font("Dialog", Font.PLAIN, 10));
@@ -170,15 +171,19 @@ public class GameState extends ScreenState {
 	
 	@Override
 	public void mouseClicked(MouseEvent me) {
-		for(int i = 0; i < this.buttonBounds.size(); i++) {
-			if(this.buttonBounds.get(i).wasClicked(me)) {
-				if(this.buttons[i].equals("next")) {
-					if(this.turn == 0) this.turn = 1;
-					else this.turn = 0;
-				} else if(this.buttons[i].equals("quit")) {
-					System.exit(0);
+		if(SwingUtilities.isLeftMouseButton(me)) {
+			for(int i = 0; i < this.buttonBounds.size(); i++) {
+				if(this.buttonBounds.get(i).wasClicked(me)) {
+					if(this.buttons[i].equals("next")) {
+						if(this.turn == 0) this.turn = 1;
+						else this.turn = 0;
+					} else if(this.buttons[i].equals("quit")) {
+						System.exit(0);
+					}
 				}
 			}
+		} else if(SwingUtilities.isRightMouseButton(me)) {
+			System.out.println("right!");
 		}
 	}
 

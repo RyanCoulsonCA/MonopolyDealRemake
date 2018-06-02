@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.imageio.ImageIO;
+import javax.swing.SwingUtilities;
 
 public class ImageButton {
 	private BufferedImage image;
@@ -77,7 +78,7 @@ public class ImageButton {
 		Color oldColor = g.getColor();
 		
 		Rectangle rect = new Rectangle(xpos, ypos, width, height);
-		g.draw(rect);
+		//g.draw(rect);
 		
 		g.setFont(new Font("Default", Font.BOLD, 23));
 		g.setStroke(new BasicStroke(0.1f));
@@ -94,7 +95,7 @@ public class ImageButton {
 	}
 	
 	public boolean wasClicked(MouseEvent me) {
-		if(!this.enabled) {
+		if(!this.enabled || !SwingUtilities.isLeftMouseButton(me)) {
 			return false;
 		}
 		

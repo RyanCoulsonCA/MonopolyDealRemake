@@ -40,7 +40,7 @@ public class GameState extends ScreenState {
 		deck.shuffle();
 		
 		// Deal cards
-		for(int i = 0; i < 7; i++) {
+		for(int i = 0; i < 3; i++) {
 			this.playerOne.addHand(deck.pop());
 			this.playerTwo.addHand(deck.pop());
 		}
@@ -135,14 +135,16 @@ public class GameState extends ScreenState {
 	    	g.setColor(regc);
 	    	g.setStroke(regs);
     	}
-    	/*
-    	new ActionCard("Double Tarrifs", "action", 5, "rent").draw(g, 250, 250);
-    	new ActionCard("Territory", "action", 5, "rent").draw(g, 400, 250);
-    	new ActionCard("Blitzkrieg", "action", 5, "rent").draw(g, 550, 250);
-    	new ActionCard("Quick Ambush", "action", 5, "rent").draw(g, 700, 250);
-    	new PropertyCard("Toronto", "wild", 5, new Color(247,126,35), new String[] {"5","10","20"}).draw(g, 850, 250);
-    	*/
     	
+    	/* Blank Cards 
+    	new Card("Test","action", 5).draw(g, 50, 80);
+    	new Card("Test","action", 5).draw(g, 50, 100);
+    	new Card("Test","action", 5).draw(g, 50, 120);
+ 
+    	new Card("Test","action", 5).draw(g, 50, 280);
+    	new Card("Test","action", 5).draw(g, 50, 300);
+    	new Card("Test","action", 5).draw(g, 50, 320);
+    	*/
     	
     	// Action buttons
     	ImageButton endTurn = new ImageButton("Assets/Images/wooden_btn.png", 20, 470, 100, 60, g);

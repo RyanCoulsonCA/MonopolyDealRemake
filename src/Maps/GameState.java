@@ -1,16 +1,20 @@
 package Maps;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import main.Card;
 import main.Deck;
+import main.ImageButton;
 import main.Player;
 
 public class GameState extends ScreenState {
@@ -18,12 +22,16 @@ public class GameState extends ScreenState {
 	private BufferedImage bg, title, playerOneImg, playerTwoImg;
 	private Player playerOne, playerTwo;
 	private int turn;
+	private ArrayList<ImageButton> buttonBounds;
+	private String[] buttons = new String[] {"next", "quit"};
 	
 	public GameState(StateManager sm) {
 		this.sm = sm;
 		this.playerOne = sm.getPlayerOne();
 		this.playerTwo = sm.getPlayerTwo();
 		this.turn = 0; // 0 = player 1, 1 = player 2
+		
+		this.buttonBounds = new ArrayList<ImageButton>();
 		
 		Deck deck = new Deck("Assets/base_deck.txt");
 		deck.parseDeck();
@@ -44,6 +52,8 @@ public class GameState extends ScreenState {
 
 	@Override
 	public void draw(Graphics2D g) {
+		this.buttonBounds = new ArrayList<ImageButton>();
+		
     	// Load images
     	try {
     		bg = ImageIO.read(new File("Assets/Images/temp_background.png"));
@@ -58,6 +68,7 @@ public class GameState extends ScreenState {
     	
     	Font reg = g.getFont();
     	Color regc = g.getColor();
+    	Stroke regs = g.getStroke();
     	
     	// Background
     	g.drawImage(bg, 0, 0, null);
@@ -83,6 +94,15 @@ public class GameState extends ScreenState {
     	g.setFont(reg);
     	g.setColor(regc);
     	
+    	// Glow if player's turn
+    	if(this.turn == 0) {
+	    	g.setColor(new Color(211, 175, 55));
+	    	g.setStroke(new BasicStroke(3));
+	    	g.drawOval(25, 25, 47, 47);
+	    	g.setColor(regc);
+	    	g.setStroke(regs);
+    	}
+    	
     	// Second Player
     	g.setFont(new Font("Dialog", Font.PLAIN, 10));
     	g.setColor(Color.LIGHT_GRAY);
@@ -106,6 +126,13 @@ public class GameState extends ScreenState {
     	g.setFont(reg);
     	g.setColor(regc);
     	
+    	if(this.turn == 1) {
+	    	g.setColor(new Color(211, 175, 55));
+	    	g.setStroke(new BasicStroke(3));
+	    	g.drawOval(950, 25, 47, 47);
+	    	g.setColor(regc);
+	    	g.setStroke(regs);
+    	}
     	/*
     	new ActionCard("Double Tarrifs", "action", 5, "rent").draw(g, 250, 250);
     	new ActionCard("Territory", "action", 5, "rent").draw(g, 400, 250);
@@ -114,9 +141,27 @@ public class GameState extends ScreenState {
     	new PropertyCard("Toronto", "wild", 5, new Color(247,126,35), new String[] {"5","10","20"}).draw(g, 850, 250);
     	*/
     	
+    	
+    	// Action buttons
+    	ImageButton endTurn = new ImageButton("Assets/Images/wooden_btn.png", 20, 450, 100, 60, g);
+    	endTurn.draw();
+    	buttonBounds.add(endTurn);
+    	g.drawString("Next Turn", 40, 485);
+    	
+    	ImageButton quitBtn = new ImageButton("Assets/Images/wooden_btn.png", 20, 530, 100, 60, g);
+    	quitBtn.draw();
+    	buttonBounds.add(quitBtn);
+    	g.drawString("Quit", 55, 565);
+    	
     	if(this.turn == 0) {
-    		int x_offset = 512 - Math.round(this.playerOne.getHand().size() * 110)/2;
+    		int x_offset = 532 - Math.round(this.playerOne.getHand().size() * 110)/2;
     		for(Card c: this.playerOne.getHand()) {
+    			c.draw(g, x_offset, 450);
+    			x_offset += 110;
+    		}
+    	} else {
+    		int x_offset = 532 - Math.round(this.playerTwo.getHand().size() * 110)/2;
+    		for(Card c: this.playerTwo.getHand()) {
     			c.draw(g, x_offset, 450);
     			x_offset += 110;
     		}
@@ -124,9 +169,17 @@ public class GameState extends ScreenState {
 	}
 	
 	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mouseClicked(MouseEvent me) {
+		for(int i = 0; i < this.buttonBounds.size(); i++) {
+			if(this.buttonBounds.get(i).wasClicked(me)) {
+				if(this.buttons[i].equals("next")) {
+					if(this.turn == 0) this.turn = 1;
+					else this.turn = 0;
+				} else if(this.buttons[i].equals("quit")) {
+					System.exit(0);
+				}
+			}
+		}
 	}
 
 	@Override

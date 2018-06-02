@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 
 import main.Card;
+import main.CardButton;
 import main.Deck;
 import main.ImageButton;
 import main.Player;
@@ -24,6 +25,7 @@ public class GameState extends ScreenState {
 	private Player currentPlayer, playerOne, playerTwo;
 	private int turn;
 	private ArrayList<ImageButton> buttonBounds;
+	private ArrayList<CardButton> cardBounds;
 	private String[] buttons = new String[] {"next", "quit"};
 	
 	public GameState(StateManager sm) {
@@ -34,13 +36,14 @@ public class GameState extends ScreenState {
 		this.currentPlayer = this.playerOne;
 		
 		this.buttonBounds = new ArrayList<ImageButton>();
+		this.cardBounds = new ArrayList<CardButton>();
 		
 		Deck deck = new Deck("Assets/base_deck.txt");
 		deck.parseDeck();
 		deck.shuffle();
 		
 		// Deal cards
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < 7; i++) {
 			this.playerOne.addHand(deck.pop());
 			this.playerTwo.addHand(deck.pop());
 		}
@@ -54,7 +57,19 @@ public class GameState extends ScreenState {
 
 	@Override
 	public void draw(Graphics2D g) {
+		if(this.currentPlayer.getMovesLeft() == 0) {
+			this.currentPlayer.setMovesLeft(3);
+			if(this.turn == 0) {
+				this.turn = 1;
+				this.currentPlayer = this.playerTwo;
+			} else {
+				this.turn = 0;
+				this.currentPlayer = this.playerOne;
+			}
+		}
+		
 		this.buttonBounds = new ArrayList<ImageButton>();
+		this.cardBounds = new ArrayList<CardButton>();
 		
     	// Load images
     	try {
@@ -91,7 +106,7 @@ public class GameState extends ScreenState {
     	
     	g.setFont(new Font("DialogInput", Font.PLAIN, 16));
     	g.setColor(Color.GREEN);
-    	g.drawString("$"+this.playerOne.getTreasury(), 80, 65);
+    	g.drawString("$"+this.playerOne.getTreasury()+"M", 81, 65);
     	
     	g.setFont(reg);
     	g.setColor(regc);
@@ -123,7 +138,7 @@ public class GameState extends ScreenState {
     	
     	g.setFont(new Font("DialogInput", Font.PLAIN, 16));
     	g.setColor(Color.GREEN);
-    	g.drawString("$"+this.playerTwo.getTreasury(), 926 - Integer.toString(this.playerTwo.getTreasury()).length()*9, 65);
+    	g.drawString("$"+this.playerTwo.getTreasury()+"M", 919 - Integer.toString(this.playerTwo.getTreasury()).length()*9, 65);
 
     	g.setFont(reg);
     	g.setColor(regc);
@@ -154,7 +169,7 @@ public class GameState extends ScreenState {
     	
     	g.setFont(new Font("Dialog", Font.PLAIN, 12));
     	g.setColor(new Color(84, 45, 31));
-    	g.drawString(this.currentPlayer.getTurnsLeft() + "/3", 60, 515);
+    	g.drawString(this.currentPlayer.getMovesLeft() + "/3", 60, 515);
     	
     	g.setFont(reg);
     	g.setColor(regc);
@@ -164,36 +179,50 @@ public class GameState extends ScreenState {
     	buttonBounds.add(quitBtn);
     	g.drawString("Quit", 55, 585);
     	
-    	if(this.turn == 0) {
-    		int x_offset = 532 - Math.round(this.playerOne.getHand().size() * 110)/2;
-    		for(Card c: this.playerOne.getHand()) {
-    			c.draw(g, x_offset, 470);
-    			x_offset += 110;
-    		}
-    	} else {
-    		int x_offset = 532 - Math.round(this.playerTwo.getHand().size() * 110)/2;
-    		for(Card c: this.playerTwo.getHand()) {
-    			c.draw(g, x_offset, 470);
-    			x_offset += 110;
-    		}
+    	
+    	// Draw player hand
+    	int x_offset = 532 - Math.round(this.currentPlayer.getHand().size() * 110)/2;
+    	for(Card c: this.currentPlayer.getHand()) {
+    		c.draw(g, x_offset, 470);
+    		  
+    		CardButton cardBtn = new CardButton(c, 100, 160, x_offset, 470, g);
+    		this.cardBounds.add(cardBtn);
+    		
+    		x_offset += 110;
     	}
 	}
 	
 	@Override
 	public void mouseClicked(MouseEvent me) {
 		if(SwingUtilities.isLeftMouseButton(me)) {
+			// check action buttons first
 			for(int i = 0; i < this.buttonBounds.size(); i++) {
 				if(this.buttonBounds.get(i).wasClicked(me)) {
 					if(this.buttons[i].equals("next")) {
-						if(this.turn == 0) this.turn = 1;
-						else this.turn = 0;
+						if(this.turn == 0) {
+							this.turn = 1; 
+							this.currentPlayer = this.playerTwo;
+						} else {
+							this.turn = 0;
+							this.currentPlayer = this.playerOne;
+						}
 					} else if(this.buttons[i].equals("quit")) {
 						System.exit(0);
 					}
 				}
 			}
-		} else if(SwingUtilities.isRightMouseButton(me)) {
-			System.out.println("right!");
+		}
+			// check to see if a card was clicked
+		for(int i = 0; i < this.cardBounds.size(); i++) {
+			CardButton cardBtn = this.cardBounds.get(i);
+			Card card = cardBtn.getCard();
+			
+			if(cardBtn.wasLeftClicked(me)) {
+				System.out.println("Card clicked!");
+			} else if(cardBtn.wasRightClicked(me)) {
+				card.bank(this.currentPlayer);
+				this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+			}
 		}
 	}
 

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.event.MouseEvent;
 
 public class Card {
 
@@ -26,7 +27,6 @@ public class Card {
 		Font oldFont = g.getFont();
 		Stroke oldStroke = g.getStroke();
 		
-		
 		// Draw physical card
 		g.setColor(Color.WHITE);
 		g.fillRect(x, y, 80, 128);
@@ -39,4 +39,6 @@ public class Card {
 		g.setFont(oldFont);
 		g.setStroke(oldStroke);
 	}
+	public void use(Player user, Player target) { }
+	public void bank(Player user) { }
 }

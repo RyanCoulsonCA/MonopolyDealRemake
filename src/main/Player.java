@@ -7,14 +7,14 @@ public class Player {
 	private ArrayList<Card> hand;
 	private ArrayList<Card> properties;
 	private int treasury;
-	private int turns;
+	private int moves;
 	private boolean block;
 	private boolean double_rent;
 	
 	public Player() {
 		this.country = "Undecided";
 		this.treasury = 0;
-		this.turns = 3;
+		this.moves = 3;
 		this.hand = new ArrayList<Card>();
 		this.properties = new ArrayList<Card>();
 	}
@@ -31,12 +31,12 @@ public class Player {
 		return this.treasury;
 	}
 	
-	public int getTurnsLeft() {
-		return this.turns;
+	public int getMovesLeft() {
+		return this.moves;
 	}
 	
-	public void setTurnsLeft(int left) {
-		this.turns = left;
+	public void setMovesLeft(int left) {
+		this.moves = left;
 	}
 	
 	public void addTreasury(int amount) {

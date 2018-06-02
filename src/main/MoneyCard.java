@@ -52,4 +52,15 @@ public class MoneyCard extends Card {
 		g.setFont(oldFont);
 		g.setStroke(oldStroke);
 	}
+	
+	@Override
+	public void use(Player user, Player target) {
+		
+	}
+	
+	@Override
+	public void bank(Player user) {
+		user.addTreasury(this.value);
+		user.removeHand(this);
+	}
 }

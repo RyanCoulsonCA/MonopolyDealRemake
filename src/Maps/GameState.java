@@ -9,11 +9,9 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-import main.ActionCard;
 import main.Card;
 import main.Deck;
 import main.Player;
-import main.PropertyCard;
 
 public class GameState extends ScreenState {
 

@@ -1,20 +1,30 @@
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
-Singapore	property	1	254,231,15	1	n/a	n/a
+Tariffs	action	1	rent	254,231,15	238,57,36
+Tariffs	action	1	rent	254,231,15	238,57,36
+Tariffs	action	1	rent	247,126,35	239,56,120
+Tariffs	action	1	rent	247,126,35	239,56,120
+Tariffs	action	1	rent	135,165,215	238,57,36
+Tariffs	action	1	rent	135,165,215	238,57,36
+Tariffs	action	1	rent	254,231,15	19,165,92
+Tariffs	action	1	rent	254,231,15	19,165,92
+Tariffs	action	1	rent	89,12,56	40,78,161
+Tariffs	action	1	rent	89,12,56	40,78,161
+Tariffs	action	1	rent	254,231,15	238,57,36
+Tariffs	action	1	rent	254,231,15	238,57,36
+Tariffs	action	1	rent	247,126,35	239,56,120
+Tariffs	action	1	rent	247,126,35	239,56,120
+Tariffs	action	1	rent	135,165,215	238,57,36
+Tariffs	action	1	rent	135,165,215	238,57,36
+Tariffs	action	1	rent	254,231,15	19,165,92
+Tariffs	action	1	rent	254,231,15	19,165,92
+Tariffs	action	1	rent	89,12,56	40,78,161
+Tariffs	action	1	rent	89,12,56	40,78,161
+Tariffs	action	1	rent	254,231,15	238,57,36
+Tariffs	action	1	rent	254,231,15	238,57,36
+Tariffs	action	1	rent	247,126,35	239,56,120
+Tariffs	action	1	rent	247,126,35	239,56,120
+Tariffs	action	1	rent	135,165,215	238,57,36
+Tariffs	action	1	rent	135,165,215	238,57,36
+Tariffs	action	1	rent	254,231,15	19,165,92
+Tariffs	action	1	rent	254,231,15	19,165,92
+Tariffs	action	1	rent	89,12,56	40,78,161
+Tariffs	action	1	rent	89,12,56	40,78,161

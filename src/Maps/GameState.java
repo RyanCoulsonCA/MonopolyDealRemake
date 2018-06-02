@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import main.ActionCard;
 import main.Deck;
 import main.Player;
+import main.PropertyCard;
 
 public class GameState extends ScreenState {
 
@@ -108,7 +109,7 @@ public class GameState extends ScreenState {
     	new ActionCard("Territory", "action", 5, "rent").draw(g, 400, 250);
     	new ActionCard("Blitzkrieg", "action", 5, "rent").draw(g, 550, 250);
     	new ActionCard("Quick Ambush", "action", 5, "rent").draw(g, 700, 250);
-    	new ActionCard("Economic Boom", "action", 5, "rent").draw(g, 850, 250);
+    	new PropertyCard("Toronto", "property", 5, new Color(247,126,35), new String[] {"5","10"}).draw(g, 850, 250);
 	}
 	
 	@Override

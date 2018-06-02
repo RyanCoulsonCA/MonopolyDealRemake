@@ -32,7 +32,7 @@ public class GameState extends ScreenState {
 		deck.shuffle();
 		
 		// Deal cards
-		for(int i = 0; i < 3; i++) {
+		for(int i = 0; i < 7; i++) {
 			this.playerOne.addHand(deck.pop());
 			this.playerTwo.addHand(deck.pop());
 		}
@@ -117,7 +117,7 @@ public class GameState extends ScreenState {
     	*/
     	
     	if(this.turn == 0) {
-    		int x_offset = 200;
+    		int x_offset = 512 - Math.round(this.playerOne.getHand().size() * 110)/2;
     		for(Card c: this.playerOne.getHand()) {
     			c.draw(g, x_offset, 450);
     			x_offset += 110;

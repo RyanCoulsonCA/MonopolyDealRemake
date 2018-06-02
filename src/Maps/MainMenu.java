@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 import main.ImageButton;
 
 public class MainMenu extends ScreenState {
-	private BufferedImage bg, title, button_img;
+	private BufferedImage bg, title;
 	private String[] buttons = {"Start Game", "Documentation", "Exit"};
 	private ArrayList<ImageButton> buttonBounds;
 	private StateManager sm;
@@ -36,7 +36,6 @@ public class MainMenu extends ScreenState {
     	try {
     		bg = ImageIO.read(new File("Assets/Images/temp_background.png"));
     		title = ImageIO.read(new File("Assets/Images/temp_logo.png"));
-    		button_img = ImageIO.read(new File("Assets/Images/button_img.png"));
     	} catch(Exception e) {
     		e.printStackTrace();
     	}

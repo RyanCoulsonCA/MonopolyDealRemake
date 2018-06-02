@@ -3,7 +3,6 @@ package Maps;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,16 +10,13 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 import main.ActionCard;
-import main.Card;
 import main.Deck;
 import main.Player;
 
 public class GameState extends ScreenState {
 
-	private StateManager sm;
-	private BufferedImage bg, title, button_img, playerOneImg, playerTwoImg;
+	private BufferedImage bg, title, playerOneImg, playerTwoImg;
 	private Player playerOne, playerTwo;
-	private Font user;
 	
 	public GameState(StateManager sm) {
 		this.sm = sm;
@@ -50,7 +46,6 @@ public class GameState extends ScreenState {
     	try {
     		bg = ImageIO.read(new File("Assets/Images/temp_background.png"));
     		title = ImageIO.read(new File("Assets/Images/logo_small.png"));
-    		button_img = ImageIO.read(new File("Assets/Images/button_img.png"));
     		
     		playerOneImg = ImageIO.read(new File("Assets/Images/i"+this.playerOne.getImage()));
     		playerTwoImg = ImageIO.read(new File("Assets/Images/i"+this.playerTwo.getImage()));

@@ -1,7 +1,5 @@
 package Maps;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -16,7 +14,7 @@ import main.Player;
 public class PlayerSelect extends ScreenState {
 
 	private StateManager sm;
-	private BufferedImage bg, title, button_img;
+	private BufferedImage bg, title;
 	private ArrayList<ImageButton> buttonBounds;
 	private String[] buttons = {"Canada", "America", "China", "EU", "Russia", "UK", "Menu"};
 	private String[] images = {"canada_circle.png", "america_circle.png", "china_circle.png", "eu_circle.png", "russia_circle.png", "uk_circle.png"};
@@ -41,7 +39,6 @@ public class PlayerSelect extends ScreenState {
     	try {
     		bg = ImageIO.read(new File("Assets/Images/temp_background.png"));
     		title = ImageIO.read(new File("Assets/Images/temp_logo.png"));
-    		button_img = ImageIO.read(new File("Assets/Images/button_img.png"));
     	} catch(Exception e) {
     		e.printStackTrace();
     	}

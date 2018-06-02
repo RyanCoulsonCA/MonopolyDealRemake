@@ -21,7 +21,7 @@ import main.Player;
 public class GameState extends ScreenState {
 
 	private BufferedImage bg, title, playerOneImg, playerTwoImg;
-	private Player playerOne, playerTwo;
+	private Player currentPlayer, playerOne, playerTwo;
 	private int turn;
 	private ArrayList<ImageButton> buttonBounds;
 	private String[] buttons = new String[] {"next", "quit"};
@@ -31,6 +31,7 @@ public class GameState extends ScreenState {
 		this.playerOne = sm.getPlayerOne();
 		this.playerTwo = sm.getPlayerTwo();
 		this.turn = 0; // 0 = player 1, 1 = player 2
+		this.currentPlayer = this.playerOne;
 		
 		this.buttonBounds = new ArrayList<ImageButton>();
 		
@@ -144,26 +145,33 @@ public class GameState extends ScreenState {
     	
     	
     	// Action buttons
-    	ImageButton endTurn = new ImageButton("Assets/Images/wooden_btn.png", 20, 450, 100, 60, g);
+    	ImageButton endTurn = new ImageButton("Assets/Images/wooden_btn.png", 20, 470, 100, 60, g);
     	endTurn.draw();
     	buttonBounds.add(endTurn);
-    	g.drawString("Next Turn", 40, 485);
+    	g.drawString("Next Turn", 40, 500);
     	
-    	ImageButton quitBtn = new ImageButton("Assets/Images/wooden_btn.png", 20, 530, 100, 60, g);
+    	g.setFont(new Font("Dialog", Font.PLAIN, 12));
+    	g.setColor(new Color(84, 45, 31));
+    	g.drawString(this.currentPlayer.getTurnsLeft() + "/3", 60, 515);
+    	
+    	g.setFont(reg);
+    	g.setColor(regc);
+    	
+    	ImageButton quitBtn = new ImageButton("Assets/Images/wooden_btn.png", 20, 550, 100, 60, g);
     	quitBtn.draw();
     	buttonBounds.add(quitBtn);
-    	g.drawString("Quit", 55, 565);
+    	g.drawString("Quit", 55, 585);
     	
     	if(this.turn == 0) {
     		int x_offset = 532 - Math.round(this.playerOne.getHand().size() * 110)/2;
     		for(Card c: this.playerOne.getHand()) {
-    			c.draw(g, x_offset, 450);
+    			c.draw(g, x_offset, 470);
     			x_offset += 110;
     		}
     	} else {
     		int x_offset = 532 - Math.round(this.playerTwo.getHand().size() * 110)/2;
     		for(Card c: this.playerTwo.getHand()) {
-    			c.draw(g, x_offset, 450);
+    			c.draw(g, x_offset, 470);
     			x_offset += 110;
     		}
     	}

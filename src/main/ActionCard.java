@@ -39,8 +39,10 @@ public class ActionCard extends Card {
 		
 		if(this.name.length() <= 10) {
 			g.drawString(this.name, x + 62 - this.name.length() * 4, y + 75);
-		} else {
+		} else if(this.name.length() <= 12){
 			g.drawString(this.name, x + 54 - this.name.length() * 4, y + 75);
+		} else {
+			g.drawString(this.name, x + 70 - this.name.length() * 5, y + 75);
 		}
 		// Draw card type
 		g.setFont(new Font("Dialog", Font.PLAIN, 11));

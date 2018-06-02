@@ -65,7 +65,7 @@ public class PropertyCard extends Card {
 		if(this.name.length() <= 10) {
 			g.drawString(this.name, x + 58 - this.name.length() * 4, y + 25);
 		} else {
-			g.drawString(this.name, x + 54 - this.name.length() * 4, y + 75);
+			g.drawString(this.name, x + 54 - this.name.length() * 4, y + 25);
 		}
 		
 		// Draw prices

@@ -27,7 +27,7 @@ public class GameState extends ScreenState {
 		this.playerTwo = sm.getPlayerTwo();
 		this.turn = 0; // 0 = player 1, 1 = player 2
 		
-		Deck deck = new Deck("Assets/test.txt");
+		Deck deck = new Deck("Assets/base_deck.txt");
 		deck.parseDeck();
 		deck.shuffle();
 		

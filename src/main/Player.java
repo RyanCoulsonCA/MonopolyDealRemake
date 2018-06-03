@@ -5,7 +5,7 @@ public class Player {
 	private String country;
 	private String image;
 	private ArrayList<Card> hand;
-	private ArrayList<Card> properties;
+	private ArrayList<CardStack> properties;
 	private int treasury;
 	private int moves;
 	private boolean block;
@@ -16,7 +16,7 @@ public class Player {
 		this.treasury = 0;
 		this.moves = 3;
 		this.hand = new ArrayList<Card>();
-		this.properties = new ArrayList<Card>();
+		this.properties = new ArrayList<CardStack>();
 	}
 	
 	public String getCountry() {
@@ -59,16 +59,31 @@ public class Player {
 		this.hand.remove(card);
 	}
 	
-	public ArrayList<Card> getProperties() {
+	public ArrayList<CardStack> getProperties() {
 		return this.properties;
 	}
 	
-	public void addProperty(Card card) {
-		this.properties.add(card);
+	public void addProperty(PropertyCard card) {
+		boolean exists = false;
+		
+		for(CardStack cs: this.properties) {
+			System.out.println(cs.getColor().equals(card.getColor()));
+			if(cs.getColor().equals(card.getColor())) {
+				cs.addCard(card);
+				exists = true;
+			}
+		}
+		
+		if(!exists) {
+			System.out.println("making new stack");
+			CardStack newStack = new CardStack(card.getColor());
+			newStack.addCard(card);
+			this.properties.add(newStack);
+		}
 	}
 	
 	public void removeProperty(Card card) {
-		this.properties.remove(card);
+		//TODO: this.properties.remove(card);
 	}
 	
 	public boolean isBlocking() {
@@ -100,6 +115,7 @@ public class Player {
 		 * if the player has no properties, return null.
 		 */
 		
+		/*
 		if(this.properties.size() == 0) {
 			return null;
 		}
@@ -115,6 +131,8 @@ public class Player {
 		}
 		
 		return lowest;
+		*/
+		return null;
 	}
 	
 }

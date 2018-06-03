@@ -15,9 +15,11 @@ import javax.swing.SwingUtilities;
 
 import main.Card;
 import main.CardButton;
+import main.CardStack;
 import main.Deck;
 import main.ImageButton;
 import main.Player;
+import main.PropertyCard;
 
 public class GameState extends ScreenState {
 
@@ -40,7 +42,7 @@ public class GameState extends ScreenState {
 		this.buttonBounds = new ArrayList<ImageButton>();
 		this.cardBounds = new ArrayList<CardButton>();
 		
-		this.deck = new Deck("Assets/base_deck.txt");
+		this.deck = new Deck("Assets/test.txt");
 		this.deck.parseDeck();
 		this.deck.shuffle();
 		
@@ -174,9 +176,23 @@ public class GameState extends ScreenState {
     	buttonBounds.add(quitBtn);
     	g.drawString("Quit", 55, 585);
     	
+    	// Draw player properties
+    	//int x_offset = 532 - Math.round(this.currentPlayer.getProperties().size() * 110)/2;
+    	int x_offset = 532 - Math.round(this.currentPlayer.getProperties().size() * 110)/2;
+    	for(CardStack cs: this.currentPlayer.getProperties()) {
+    		cs.draw(g, x_offset, 280);
+    		x_offset += 110;
+    	}
+    	
+    	// Draw other player properties
+    	x_offset = 532 - Math.round(this.otherPlayer.getProperties().size() * 110)/2;
+    	for(CardStack cs: this.otherPlayer.getProperties()) {
+    		cs.draw(g, x_offset, 80);
+    		x_offset += 110;
+    	}
     	
     	// Draw player hand
-    	int x_offset = 532 - Math.round(this.currentPlayer.getHand().size() * 110)/2;
+    	x_offset = 532 - Math.round(this.currentPlayer.getHand().size() * 110)/2;
     	for(Card c: this.currentPlayer.getHand()) {
     		c.draw(g, x_offset, 470);
     		  

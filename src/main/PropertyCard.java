@@ -107,4 +107,25 @@ public class PropertyCard extends Card {
 		g.setFont(oldFont);
 		g.setStroke(oldStroke);
 	}
+	
+	public void use(Player user, Player target) {
+		if(this.type != "wild") {
+			user.addProperty(this);
+			user.removeHand(this);
+		}
+	}
+	
+	public void bank(Player user) {
+		user.addTreasury(this.value);
+		user.removeHand(this);
+	}
+	
+	public boolean equals(PropertyCard other) {
+		if(this.color.getBlue() == other.color.getBlue() &&
+				this.color.getRed() == other.color.getRed() &&
+				this.color.getGreen() == other.color.getGreen()) {
+			return true;
+		}
+		return false;
+	}
 }

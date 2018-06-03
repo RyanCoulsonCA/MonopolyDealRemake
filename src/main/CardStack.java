@@ -77,4 +77,5 @@ public class CardStack {
 		g.setStroke(olds);
 	}
 	
+	
 }

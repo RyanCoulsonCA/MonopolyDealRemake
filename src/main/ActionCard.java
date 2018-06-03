@@ -57,6 +57,10 @@ public class ActionCard extends Card {
 					user.addHand(deck.pop());
 				}
 			}
+		} else if(this.action.equals("doublerent")) {
+			user.setDoubleRent(true);
+		} else if(this.action.equals("no")) {
+			user.setBlocked(true);
 		}
 		user.removeHand(this);
 	}

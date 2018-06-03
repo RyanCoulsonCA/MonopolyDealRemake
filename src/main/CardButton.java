@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 public class CardButton {
 	private int width, height, xpos, ypos;
 	private Card card;
+	private CardStack cs;
 	
 	public CardButton(Card c, int w, int h, int xpos, int ypos, Graphics2D g) {
 		this.card = c;
@@ -15,10 +16,26 @@ public class CardButton {
 		this.height = h;
 		this.xpos = xpos;
 		this.ypos = ypos;
+		
+		g.drawRect(xpos, ypos, w, h);
+	}
+
+	public CardButton(CardStack cs, int w, int h, int xpos, int ypos, Graphics2D g) {
+		this.cs = cs;
+		this.width = w;
+		this.height = h;
+		this.xpos = xpos;
+		this.ypos = ypos;
+		
+		g.drawRect(xpos, ypos, w, h);
 	}
 	
 	public Card getCard() {
 		return this.card;
+	}
+	
+	public CardStack getCardStack() {
+		return this.cs;
 	}
 	
 	public boolean wasLeftClicked(MouseEvent me) {

@@ -27,8 +27,11 @@ public class GameState extends ScreenState {
 	private int turn;
 	private ArrayList<ImageButton> buttonBounds;
 	private ArrayList<CardButton> cardBounds;
+	private ArrayList<CardButton> highlightBounds;
 	private String[] buttons = new String[] {"next", "quit"};
 	private Deck deck;
+	private boolean highlightPlayerProperties, highlightEnemyProperties;
+	private Card selectedWild;
 	
 	public GameState(StateManager sm) {
 		this.sm = sm;
@@ -38,8 +41,13 @@ public class GameState extends ScreenState {
 		this.currentPlayer = this.playerOne;
 		this.otherPlayer = this.playerTwo;
 		
+		this.highlightPlayerProperties = false;
+		this.highlightEnemyProperties = false;
+		this.selectedWild = null;
+		
 		this.buttonBounds = new ArrayList<ImageButton>();
 		this.cardBounds = new ArrayList<CardButton>();
+		this.highlightBounds = new ArrayList<CardButton>();
 		
 		this.deck = new Deck("Assets/base_deck.txt");
 		this.deck.parseDeck();
@@ -66,6 +74,7 @@ public class GameState extends ScreenState {
 		
 		this.buttonBounds = new ArrayList<ImageButton>();
 		this.cardBounds = new ArrayList<CardButton>();
+		this.highlightBounds = new ArrayList<CardButton>();
 		
     	// Load images
     	try {
@@ -109,7 +118,7 @@ public class GameState extends ScreenState {
     	
     	g.setFont(new Font("DialogInput", Font.PLAIN, 14));
     	
-    	if(!this.currentPlayer.isBlocking()) {
+    	if(!this.playerOne.isBlocking()) {
         	g.setColor(Color.RED);
     		g.drawString("X Veto", 170, 43);
     	} else {
@@ -117,7 +126,7 @@ public class GameState extends ScreenState {
         	g.drawString("✓ Veto", 170, 43);
     	}
     	
-    	if(!this.currentPlayer.isDoubleRent()) {
+    	if(!this.playerOne.isDoubleRent()) {
     		g.setColor(Color.RED);
     		g.drawString("X Double Tarrifs", 170, 60);
     	} else {
@@ -162,7 +171,7 @@ public class GameState extends ScreenState {
     	
     	g.setFont(new Font("DialogInput", Font.PLAIN, 14));
     	
-    	if(!this.currentPlayer.isBlocking()) {
+    	if(!this.playerTwo.isBlocking()) {
         	g.setColor(Color.RED);
     		g.drawString("Veto X", 800, 43);
     	} else {
@@ -170,7 +179,7 @@ public class GameState extends ScreenState {
         	g.drawString("Veto ✓", 800, 43);
     	}
     	
-    	if(!this.currentPlayer.isDoubleRent()) {
+    	if(!this.playerTwo.isDoubleRent()) {
     		g.setColor(Color.RED);
     		g.drawString("Double Tarrifs X", 720, 60);
     	} else {
@@ -221,14 +230,28 @@ public class GameState extends ScreenState {
     	//int x_offset = 532 - Math.round(this.currentPlayer.getProperties().size() * 110)/2;
     	int x_offset = 532 - Math.round(this.currentPlayer.getProperties().size() * 110)/2;
     	for(CardStack cs: this.currentPlayer.getProperties()) {
-    		cs.draw(g, x_offset, 280);
+    		if(this.highlightPlayerProperties) {
+    			cs.highlight(g, x_offset, 280);
+        		CardButton cardBtn = new CardButton(cs, 100, 170, x_offset, 280, g);
+    			this.highlightBounds.add(cardBtn);
+    		} else {
+    			cs.draw(g, x_offset, 280);
+    		}
+    		
     		x_offset += 110;
     	}
     	
     	// Draw other player properties
     	x_offset = 532 - Math.round(this.otherPlayer.getProperties().size() * 110)/2;
     	for(CardStack cs: this.otherPlayer.getProperties()) {
-    		cs.draw(g, x_offset, 80);
+    		if(this.highlightEnemyProperties) {
+    			cs.highlight(g, x_offset, 80);
+        		CardButton cardBtn = new CardButton(cs, 100, 170, x_offset, 80, g);
+    			this.highlightBounds.add(cardBtn);
+    		} else {
+    			cs.draw(g, x_offset, 80);
+    		}
+    		
     		x_offset += 110;
     	}
     	
@@ -246,6 +269,10 @@ public class GameState extends ScreenState {
 	
 	public void nextTurn() {
 		this.currentPlayer.setMovesLeft(3);
+		
+		this.highlightEnemyProperties = false;
+		this.highlightPlayerProperties = false;
+		this.selectedWild = null;
 		
 		for(int i = 0; i < 2; i++) {
 			if(this.currentPlayer.getHand().size() < 7) {
@@ -278,14 +305,45 @@ public class GameState extends ScreenState {
 				}
 			}
 		}
-			// check to see if a card was clicked
+		
+		// right click to cancel wildcard selection
+		if(SwingUtilities.isRightMouseButton(me)) {
+			if(this.highlightPlayerProperties) {
+				this.highlightPlayerProperties = false;
+				this.selectedWild = null;
+			}
+		}
+		
+		// check for wild card clicks first
+		// TODO: if a player adds to a stack that's already full, or if they add a new card to the stack later,
+		// remove the wild card and return it to their hand
+		if(this.highlightPlayerProperties) {
+			for(int i = 0; i < this.highlightBounds.size(); i++) {
+				CardStack cs = this.highlightBounds.get(i).getCardStack();
+				
+				if(this.highlightBounds.get(i).wasLeftClicked(me)) {
+					cs.addCard(this.selectedWild);
+					this.currentPlayer.removeHand(this.selectedWild);
+					this.highlightPlayerProperties = false;
+					this.selectedWild = null;
+					this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+				}
+			}
+		}
+		
+		// check to see if a card was clicked
 		for(int i = 0; i < this.cardBounds.size(); i++) {
 			CardButton cardBtn = this.cardBounds.get(i);
 			Card card = cardBtn.getCard();
 			
 			if(cardBtn.wasLeftClicked(me)) {
-				card.use(this.currentPlayer, this.otherPlayer, this.deck);
-				this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+				if(card.getType() != "wild") {
+					card.use(this.currentPlayer, this.otherPlayer, this.deck);
+					this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+				} else {
+					this.highlightPlayerProperties = true;
+					this.selectedWild = card;
+				}
 			} else if(cardBtn.wasRightClicked(me)) {
 				card.bank(this.currentPlayer);
 				this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);

@@ -49,4 +49,20 @@ public class ActionCard extends Card {
 		g.setFont(oldFont);
 		g.setStroke(oldStroke);
 	}
+	
+	public void use(Player user, Player target, Deck deck) {
+		if(this.action.equals("draw")) {
+			for(int i = 0; i < 2; i++) {
+				if(user.getHand().size() < 7) {
+					user.addHand(deck.pop());
+				}
+			}
+		}
+		user.removeHand(this);
+	}
+	
+	public void bank(Player user) {
+		user.addTreasury(this.value);
+		user.removeHand(this);
+	}
 }

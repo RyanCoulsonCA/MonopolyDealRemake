@@ -38,6 +38,6 @@ public class Card {
 		g.setFont(oldFont);
 		g.setStroke(oldStroke);
 	}
-	public void use(Player user, Player target) { }
+	public void use(Player user, Player target, Deck deck) { }
 	public void bank(Player user) { }
 }

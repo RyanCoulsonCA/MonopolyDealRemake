@@ -47,7 +47,7 @@ public class MoneyCard extends Card {
 	}
 	
 	@Override
-	public void use(Player user, Player target) {
+	public void use(Player user, Player target, Deck deck) {
 		user.addTreasury(this.value);
 		user.removeHand(this);	
 	}

@@ -108,7 +108,7 @@ public class PropertyCard extends Card {
 		g.setStroke(oldStroke);
 	}
 	
-	public void use(Player user, Player target) {
+	public void use(Player user, Player target, Deck deck) {
 		if(this.type != "wild") {
 			user.addProperty(this);
 			user.removeHand(this);

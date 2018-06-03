@@ -19,7 +19,6 @@ import main.CardStack;
 import main.Deck;
 import main.ImageButton;
 import main.Player;
-import main.PropertyCard;
 
 public class GameState extends ScreenState {
 
@@ -108,6 +107,27 @@ public class GameState extends ScreenState {
     	g.setFont(reg);
     	g.setColor(regc);
     	
+    	g.setFont(new Font("DialogInput", Font.PLAIN, 14));
+    	
+    	if(!this.currentPlayer.isBlocking()) {
+        	g.setColor(Color.RED);
+    		g.drawString("X Veto", 170, 43);
+    	} else {
+        	g.setColor(Color.GREEN);
+        	g.drawString("✓ Veto", 170, 43);
+    	}
+    	
+    	if(!this.currentPlayer.isDoubleRent()) {
+    		g.setColor(Color.RED);
+    		g.drawString("X Double Tarrifs", 170, 60);
+    	} else {
+    		g.setColor(Color.GREEN);
+    		g.drawString("✓ Double Tarrifs", 170, 60);
+    	}
+ 
+    	g.setFont(reg);
+    	g.setColor(regc);
+    	
     	// Glow if player's turn
     	if(this.turn == 0) {
 	    	g.setColor(new Color(211, 175, 55));
@@ -137,6 +157,27 @@ public class GameState extends ScreenState {
     	g.setColor(Color.GREEN);
     	g.drawString("$"+this.playerTwo.getTreasury()+"M", 919 - Integer.toString(this.playerTwo.getTreasury()).length()*9, 65);
 
+    	g.setFont(reg);
+    	g.setColor(regc);
+    	
+    	g.setFont(new Font("DialogInput", Font.PLAIN, 14));
+    	
+    	if(!this.currentPlayer.isBlocking()) {
+        	g.setColor(Color.RED);
+    		g.drawString("Veto X", 800, 43);
+    	} else {
+        	g.setColor(Color.GREEN);
+        	g.drawString("Veto ✓", 800, 43);
+    	}
+    	
+    	if(!this.currentPlayer.isDoubleRent()) {
+    		g.setColor(Color.RED);
+    		g.drawString("Double Tarrifs X", 720, 60);
+    	} else {
+    		g.setColor(Color.GREEN);
+    		g.drawString("Double Tarrifs ✓", 720, 60);
+    	}
+ 
     	g.setFont(reg);
     	g.setColor(regc);
     	
@@ -243,7 +284,7 @@ public class GameState extends ScreenState {
 			Card card = cardBtn.getCard();
 			
 			if(cardBtn.wasLeftClicked(me)) {
-				card.use(this.currentPlayer, this.otherPlayer);
+				card.use(this.currentPlayer, this.otherPlayer, this.deck);
 				this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
 			} else if(cardBtn.wasRightClicked(me)) {
 				card.bank(this.currentPlayer);

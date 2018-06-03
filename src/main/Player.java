@@ -17,6 +17,8 @@ public class Player {
 		this.moves = 3;
 		this.hand = new ArrayList<Card>();
 		this.properties = new ArrayList<CardStack>();
+		this.block = false;
+		this.double_rent = false;
 	}
 	
 	public String getCountry() {

@@ -19,6 +19,7 @@ import main.CardStack;
 import main.Deck;
 import main.ImageButton;
 import main.Player;
+import main.PropertyCard;
 
 public class GameState extends ScreenState {
 
@@ -230,7 +231,7 @@ public class GameState extends ScreenState {
     	//int x_offset = 532 - Math.round(this.currentPlayer.getProperties().size() * 110)/2;
     	int x_offset = 532 - Math.round(this.currentPlayer.getProperties().size() * 110)/2;
     	for(CardStack cs: this.currentPlayer.getProperties()) {
-    		if(this.highlightPlayerProperties) {
+    		if(this.highlightPlayerProperties && !cs.isFull()) {
     			cs.highlight(g, x_offset, 280);
         		CardButton cardBtn = new CardButton(cs, 100, 170, x_offset, 280, g);
     			this.highlightBounds.add(cardBtn);
@@ -322,7 +323,7 @@ public class GameState extends ScreenState {
 				CardStack cs = this.highlightBounds.get(i).getCardStack();
 				
 				if(this.highlightBounds.get(i).wasLeftClicked(me)) {
-					cs.addCard(this.selectedWild);
+					cs.addCard((PropertyCard)this.selectedWild);
 					this.currentPlayer.removeHand(this.selectedWild);
 					this.highlightPlayerProperties = false;
 					this.selectedWild = null;

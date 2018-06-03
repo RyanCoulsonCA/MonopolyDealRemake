@@ -8,16 +8,20 @@ import java.util.ArrayList;
 
 public class CardStack {
 
-	private ArrayList<Card> stack;
+	private ArrayList<PropertyCard> stack;
 	private Color color;
 	
 
 	public CardStack(Color color) {
 		this.color = color;
-		this.stack = new ArrayList<Card>();
+		this.stack = new ArrayList<PropertyCard>();
 	}
 	
-	public void addCard(Card c) {
+	public ArrayList<PropertyCard> getCards() {
+		return this.stack;
+	}
+	
+	public void addCard(PropertyCard c) {
 		this.stack.add(c);
 	}
 	
@@ -75,6 +79,10 @@ public class CardStack {
 		g.drawRect(x, y, 100, 160+y_increase*(this.stack.size()-1));
 		g.setColor(old);
 		g.setStroke(olds);
+	}
+	
+	public boolean isFull() {
+		return this.stack.size() == this.stack.get(0).numProperties();
 	}
 	
 	

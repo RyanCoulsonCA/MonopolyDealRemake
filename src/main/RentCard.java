@@ -78,4 +78,12 @@ public class RentCard extends Card {
 		g.setStroke(oldStroke);
 	}
 	
+	public void use(Player user, Player target, Deck d) {
+		
+	}
+	
+	public void bank(Player user) {
+		user.addTreasury(this.value);
+		user.removeHand(this);
+	}
 }

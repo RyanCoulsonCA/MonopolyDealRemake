@@ -29,6 +29,16 @@ public class PropertyCard extends Card {
 		return this.prices;
 	}
 	
+	public int numProperties() {
+		int count = 0;
+		for(int i = 0; i < prices.length; i++) {
+			if(!this.prices[i].equals("n/a")) {
+				count++;
+			}
+		}
+		return count;
+	}
+	
 	public void draw(Graphics2D g, int x, int y) {
 		Color oldColor = g.getColor();
 		Font oldFont = g.getFont();

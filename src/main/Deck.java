@@ -48,7 +48,6 @@ public class Deck {
 							color = Color.BLACK;
 							type = "wild";
 						}
-						
 						prices = new String[]{properties[4], properties[5], properties[6]};
 						
 						this.addCard(new PropertyCard(name, type, value, color, prices));

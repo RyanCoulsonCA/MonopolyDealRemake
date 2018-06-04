@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.SwingUtilities;
 
+import main.ActionCard;
 import main.Card;
 import main.CardButton;
 import main.CardStack;
@@ -33,6 +34,7 @@ public class GameState extends ScreenState {
 	private Deck deck;
 	private boolean highlightPlayerProperties, highlightEnemyProperties;
 	private Card selectedWild;
+	private ActionCard actionCard;
 	
 	public GameState(StateManager sm) {
 		this.sm = sm;
@@ -329,10 +331,28 @@ public class GameState extends ScreenState {
 				}
 			}
 		}
+		
 		// reset wild card selection if clicked
-		this.highlightEnemyProperties = false;
 		this.highlightPlayerProperties = false;
 		this.selectedWild = null;
+	
+		// check for action card clicks
+		if(this.highlightEnemyProperties) {
+			for(int i = 0; i < this.highlightBounds.size(); i++) {
+				CardStack cs = this.highlightBounds.get(i).getCardStack();
+				
+				if(this.highlightBounds.get(i).wasLeftClicked(me)) {
+					Card c = cs.pop();
+					this.otherPlayer.removeProperty((PropertyCard)c);
+					this.currentPlayer.addProperty((PropertyCard)c);
+					this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+				}
+			}
+		}
+		
+		// reset action card selection if clicked
+		this.highlightEnemyProperties = false;
+		this.actionCard = null;
 		
 		// check to see if a card was clicked
 		for(int i = 0; i < this.cardBounds.size(); i++) {
@@ -340,7 +360,18 @@ public class GameState extends ScreenState {
 			Card card = cardBtn.getCard();
 			
 			if(cardBtn.wasLeftClicked(me)) {
-				if(card.getType() != "wild") {
+				if(card.getType().equals("action") && !card.getName().equals("Tariffs")) {
+					ActionCard ac = (ActionCard)card;
+					
+					System.out.println(ac);
+					if(ac.getAction().equals("steal1")) {
+						this.highlightEnemyProperties = true;
+						this.actionCard = ac;
+					} else {
+						card.use(this.currentPlayer, this.otherPlayer, this.deck);
+						this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+					}
+				} else if(card.getType() != "wild") {
 					card.use(this.currentPlayer, this.otherPlayer, this.deck);
 					this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
 				} else {

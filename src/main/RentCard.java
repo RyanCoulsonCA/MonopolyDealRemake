@@ -78,8 +78,65 @@ public class RentCard extends Card {
 		g.setStroke(oldStroke);
 	}
 	
-	public void use(Player user, Player target, Deck d) {
+	public void use(Player user, Player target, Deck d) {	
+		int total = 0;
 		
+		for(CardStack cs: user.getProperties()) {
+			String[] prices = cs.getPrices();
+			if(cs.getColor().equals(this.getPrimaryColor())) {
+				if(prices[cs.getCards().size()-1].equals("n/a")) {
+					total += 0;
+				} else {
+					total += Integer.parseInt(prices[cs.getCards().size() - 1]);
+				}
+			}
+		}
+		
+		for(CardStack cs: user.getProperties()) {
+			String[] prices = cs.getPrices();
+			if(cs.getColor().equals(this.getSecondaryColor())) {
+				if(prices[cs.getCards().size()-1].equals("n/a")) {
+					total += 0;
+				} else {
+					total += Integer.parseInt(prices[cs.getCards().size() - 1]);
+				}
+			}
+		}
+		
+		if(user.isDoubleRent()) {
+			total += total;
+			user.setDoubleRent(false);
+		}
+		
+		System.out.println("Charging player " + total);
+		
+		
+		if(!target.isBlocking()) {
+			if(target.getTreasury() >= total) {
+				target.subTreasury(total);
+				user.addTreasury(total);
+			} else {
+				user.addTreasury(target.getTreasury());
+				total -= target.getTreasury();
+				target.subTreasury(target.getTreasury());
+				
+				while(total > 0) {
+					PropertyCard c = target.findCheapest();
+					
+					if(c != null) {
+						user.addProperty(c);
+						target.removeProperty(c);
+						total -= c.getValue();
+					} else {
+						break;
+					}
+				}
+			}
+		} else {
+			target.setBlocked(false);
+		}
+		
+		user.removeHand(this);
 	}
 	
 	public void bank(Player user) {

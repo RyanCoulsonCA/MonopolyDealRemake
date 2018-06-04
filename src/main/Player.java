@@ -91,6 +91,7 @@ public class Player {
 		
 		if(!exists) {
 			CardStack newStack = new CardStack(card.getColor());
+			newStack.setPrices(card.getPrices());
 			newStack.addCard(card);
 			this.properties.add(newStack);
 		}

@@ -10,10 +10,12 @@ public class CardStack {
 
 	private ArrayList<PropertyCard> stack;
 	private Color color;
+	private String[] prices;
 	
 
 	public CardStack(Color color) {
 		this.color = color;
+		this.prices = new String[3];
 		this.stack = new ArrayList<PropertyCard>();
 	}
 	
@@ -31,6 +33,14 @@ public class CardStack {
 	
 	public Color getColor() {
 		return this.color;
+	}
+	
+	public void setPrices(String[] prices) {
+		this.prices = prices;
+	}
+	
+	public String[] getPrices() {
+		return this.prices;
 	}
 	
 	public Card pop() { 

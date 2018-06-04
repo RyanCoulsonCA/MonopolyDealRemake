@@ -338,9 +338,7 @@ public class GameState extends ScreenState {
 		this.selectedWild = null;
 	
 		// check for action card clicks
-		if(this.highlightEnemyProperties) {
-			CardStack transfer;
-			
+		if(this.highlightEnemyProperties) {		
 			for(int i = 0; i < this.highlightBounds.size(); i++) {
 				CardStack cs = this.highlightBounds.get(i).getCardStack();
 				

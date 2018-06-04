@@ -9,6 +9,8 @@ import java.awt.Stroke;
 
 public class ActionCard extends Card {
 	private String action;
+	private static final int TAKEMONEY = 5;
+	private static final int BIRTHDAY = 2;
 	
 	public ActionCard(String name, String type, int value, String action) {
 		super(name, type, value);
@@ -61,28 +63,58 @@ public class ActionCard extends Card {
 			user.setDoubleRent(true);
 		} else if(this.action.equals("no")) {
 			user.setBlocked(true);
-		} else if(this.action.equals("takemoney")) {
-			int sentValue = 0;
-			if(target.getTreasury() >= 5) {
-				target.subTreasury(5);
-				user.addTreasury(5);
-			} else {
-				user.addTreasury(target.getTreasury());
-				sentValue += target.getTreasury();
-				target.subTreasury(target.getTreasury());
-				
-				while(sentValue < 5) {
-					PropertyCard c = target.findCheapest();
+		} else if(!target.isBlocking()) {
+			if(this.action.equals("takemoney")) {
+				int sentValue = 0;
+				if(target.getTreasury() >= TAKEMONEY) {
+					target.subTreasury(TAKEMONEY);
+					user.addTreasury(TAKEMONEY);
+				} else {
+					user.addTreasury(target.getTreasury());
+					sentValue += target.getTreasury();
+					target.subTreasury(target.getTreasury());
 					
-					if(c != null) {
-						user.addProperty(c);
-						target.removeProperty(c);
-						sentValue += c.getValue();
-					} else {
-						break;
+					while(sentValue < TAKEMONEY) {
+						PropertyCard c = target.findCheapest();
+						
+						if(c != null) {
+							user.addProperty(c);
+							target.removeProperty(c);
+							sentValue += c.getValue();
+						} else {
+							break;
+						}
+					}
+				}
+			} else if(this.action.equals("birthday")) {
+				int sentValue = 0;
+				if(target.getTreasury() >= BIRTHDAY) {
+					target.subTreasury(BIRTHDAY);
+					user.addTreasury(BIRTHDAY);
+				} else {
+					user.addTreasury(target.getTreasury());
+					sentValue += target.getTreasury();
+					target.subTreasury(target.getTreasury());
+					
+					while(sentValue < BIRTHDAY) {
+						PropertyCard c = target.findCheapest();
+						
+						if(c != null) {
+							user.addProperty(c);
+							target.removeProperty(c);
+							sentValue += c.getValue();
+						} else {
+							break;
+						}
+					}
+					
+					if(user.getHand().size() < 7) {
+						user.addHand(deck.pop());
 					}
 				}
 			}
+		} else {
+			target.setBlocked(false);
 		}
 		user.removeHand(this);
 	}

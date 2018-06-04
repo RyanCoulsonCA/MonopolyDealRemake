@@ -70,7 +70,7 @@ public class Player {
 		
 		for(CardStack cs: this.properties) {
 			PropertyCard wild = null;
-			
+		
 			if(cs.getColor().equals(card.getColor())) {
 				for(PropertyCard c: cs.getCards()) {
 					if(c.getType().equals("wild") && cs.isFull()) {
@@ -90,15 +90,29 @@ public class Player {
 		}
 		
 		if(!exists) {
-			System.out.println("making new stack");
 			CardStack newStack = new CardStack(card.getColor());
 			newStack.addCard(card);
 			this.properties.add(newStack);
 		}
 	}
 	
-	public void removeProperty(Card card) {
-		//TODO: this.properties.remove(card);
+	public void removeProperty(PropertyCard card) {
+		CardStack toRemove = null;
+		
+		for(CardStack cs: this.properties) {
+			if(cs.getColor().equals(card.getColor())) {
+				cs.removeCard(card);
+				
+				if(cs.getCards().size() == 0) {
+					toRemove = cs;
+				}
+			}
+		}
+		
+		if(toRemove != null) {
+			this.properties.remove(toRemove);
+			toRemove = null;
+		}
 	}
 	
 	public boolean isBlocking() {
@@ -125,29 +139,29 @@ public class Player {
 		return this.image;
 	}
 	
-	public Card findCheapest() {
+	public PropertyCard findCheapest() {
 		/* Return the cheapest property the player has placed on the board, otherwise
 		 * if the player has no properties, return null.
 		 */
 		
-		/*
+		
 		if(this.properties.size() == 0) {
+			System.out.println("returning null");
 			return null;
 		}
 		
-		Card lowest = this.properties.get(0);
-		int lowest_val = this.properties.get(0).getValue();
 		
-		for(Card c: this.properties) {
-			if(c.getValue() < lowest_val) {
-				lowest = c;
-				lowest_val = c.getValue();
+		PropertyCard lowestCard = this.properties.get(0).getLowest();
+		int lowest = lowestCard.getValue();
+		
+		for(CardStack c: this.properties) {
+			if(c.getLowest().getValue() < lowest) {
+				lowestCard = c.getLowest();
+				lowest = c.getLowest().getValue();
 			}
 		}
 		
-		return lowest;
-		*/
-		return null;
+		return lowestCard;
 	}
 	
 }

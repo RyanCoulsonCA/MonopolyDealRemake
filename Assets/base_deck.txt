@@ -48,6 +48,15 @@ Blitzkrieg	action	5	steal3
 Debt Collector	action	3	takemoney
 Debt Collector	action	3	takemoney
 Debt Collector	action	3	takemoney
+Debt Collector	action	3	takemoney
+Debt Collector	action	3	takemoney
+Debt Collector	action	3	takemoney
+Debt Collector	action	3	takemoney
+Debt Collector	action	3	takemoney
+Debt Collector	action	3	takemoney
+Debt Collector	action	3	takemoney
+Debt Collector	action	3	takemoney
+Debt Collector	action	3	takemoney
 Double Tariffs	action	1	doublerent
 Double Tariffs	action	1	doublerent
 National Holiday	action	2	birthday

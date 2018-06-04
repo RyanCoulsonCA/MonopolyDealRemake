@@ -61,6 +61,28 @@ public class ActionCard extends Card {
 			user.setDoubleRent(true);
 		} else if(this.action.equals("no")) {
 			user.setBlocked(true);
+		} else if(this.action.equals("takemoney")) {
+			int sentValue = 0;
+			if(target.getTreasury() >= 5) {
+				target.subTreasury(5);
+				user.addTreasury(5);
+			} else {
+				user.addTreasury(target.getTreasury());
+				sentValue += target.getTreasury();
+				target.subTreasury(target.getTreasury());
+				
+				while(sentValue < 5) {
+					PropertyCard c = target.findCheapest();
+					
+					if(c != null) {
+						user.addProperty(c);
+						target.removeProperty(c);
+						sentValue += c.getValue();
+					} else {
+						break;
+					}
+				}
+			}
 		}
 		user.removeHand(this);
 	}

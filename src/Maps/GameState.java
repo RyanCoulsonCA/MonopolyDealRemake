@@ -50,7 +50,7 @@ public class GameState extends ScreenState {
 		this.cardBounds = new ArrayList<CardButton>();
 		this.highlightBounds = new ArrayList<CardButton>();
 		
-		this.deck = new Deck("Assets/test.txt");
+		this.deck = new Deck("Assets/base_deck.txt");
 		this.deck.parseDeck();
 		this.deck.shuffle();
 		
@@ -307,7 +307,7 @@ public class GameState extends ScreenState {
 			}
 		}
 		
-		// right click to cancel wildcard selection
+		// right click to cancel wild card selection
 		if(SwingUtilities.isRightMouseButton(me)) {
 			if(this.highlightPlayerProperties) {
 				this.highlightPlayerProperties = false;
@@ -316,8 +316,6 @@ public class GameState extends ScreenState {
 		}
 		
 		// check for wild card clicks first
-		// TODO: if a player adds to a stack that's already full, or if they add a new card to the stack later,
-		// remove the wild card and return it to their hand
 		if(this.highlightPlayerProperties) {
 			for(int i = 0; i < this.highlightBounds.size(); i++) {
 				CardStack cs = this.highlightBounds.get(i).getCardStack();
@@ -331,6 +329,10 @@ public class GameState extends ScreenState {
 				}
 			}
 		}
+		// reset wild card selection if clicked
+		this.highlightEnemyProperties = false;
+		this.highlightPlayerProperties = false;
+		this.selectedWild = null;
 		
 		// check to see if a card was clicked
 		for(int i = 0; i < this.cardBounds.size(); i++) {

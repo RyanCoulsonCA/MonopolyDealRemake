@@ -85,5 +85,23 @@ public class CardStack {
 		return this.stack.size() == this.stack.get(0).numProperties();
 	}
 	
+	public PropertyCard getLowest() {
+		/* Return the lowest valued card in the stack. */
+		if(this.stack.size() == 0) {
+			return null;
+		}
+		
+		int lowest = this.stack.get(0).getValue();
+		PropertyCard lowestCard = this.stack.get(0);
+		
+		for(PropertyCard c: this.stack) {
+			if(c.getValue() < lowest) {
+				lowest = c.getValue();
+				lowestCard = c;
+			}
+		}
+		
+		return lowestCard;
+	}
 	
 }

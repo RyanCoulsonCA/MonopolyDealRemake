@@ -33,7 +33,7 @@ public class GameState extends ScreenState {
 	private String[] buttons = new String[] {"next", "quit"};
 	private Deck deck;
 	private boolean highlightPlayerProperties, highlightEnemyProperties;
-	private Card selectedWild;
+	private PropertyCard selectedWild;
 	private ActionCard actionCard;
 	
 	public GameState(StateManager sm) {
@@ -323,7 +323,8 @@ public class GameState extends ScreenState {
 				CardStack cs = this.highlightBounds.get(i).getCardStack();
 				
 				if(this.highlightBounds.get(i).wasLeftClicked(me)) {
-					cs.addCard((PropertyCard)this.selectedWild);
+					this.selectedWild.setColor(cs.getColor());
+					cs.addCard(this.selectedWild);
 					this.currentPlayer.removeHand(this.selectedWild);
 					this.highlightPlayerProperties = false;
 					this.selectedWild = null;
@@ -342,10 +343,16 @@ public class GameState extends ScreenState {
 				CardStack cs = this.highlightBounds.get(i).getCardStack();
 				
 				if(this.highlightBounds.get(i).wasLeftClicked(me)) {
-					Card c = cs.pop();
-					this.otherPlayer.removeProperty((PropertyCard)c);
-					this.currentPlayer.addProperty((PropertyCard)c);
-					this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+					if(!this.otherPlayer.isBlocking()) {
+						Card c = cs.pop();
+						this.otherPlayer.removeProperty((PropertyCard)c);
+						this.currentPlayer.addProperty((PropertyCard)c);
+						this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+					} else {
+						this.otherPlayer.setBlocked(false);
+						this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+					}
+					this.currentPlayer.removeHand(actionCard);
 				}
 			}
 		}
@@ -376,7 +383,7 @@ public class GameState extends ScreenState {
 					this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
 				} else {
 					this.highlightPlayerProperties = true;
-					this.selectedWild = card;
+					this.selectedWild = (PropertyCard)card;
 				}
 			} else if(cardBtn.wasRightClicked(me)) {
 				card.bank(this.currentPlayer);

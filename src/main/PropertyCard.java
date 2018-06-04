@@ -25,6 +25,10 @@ public class PropertyCard extends Card {
 		return this.color;
 	}
 	
+	public void setColor(Color c) {
+		this.color = c;
+	}
+	
 	public String[] getPrices() {
 		return this.prices;
 	}

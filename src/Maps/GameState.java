@@ -339,15 +339,26 @@ public class GameState extends ScreenState {
 	
 		// check for action card clicks
 		if(this.highlightEnemyProperties) {
+			CardStack transfer;
+			
 			for(int i = 0; i < this.highlightBounds.size(); i++) {
 				CardStack cs = this.highlightBounds.get(i).getCardStack();
 				
 				if(this.highlightBounds.get(i).wasLeftClicked(me)) {
 					if(!this.otherPlayer.isBlocking()) {
-						Card c = cs.pop();
-						this.otherPlayer.removeProperty((PropertyCard)c);
-						this.currentPlayer.addProperty((PropertyCard)c);
-						this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+						if(this.actionCard.getAction().equals("steal1")) {
+							Card c = cs.pop();
+							this.otherPlayer.removeProperty((PropertyCard)c);
+							this.currentPlayer.addProperty((PropertyCard)c);
+							this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+						} else if(this.actionCard.getAction().equals("steal3")) {
+							while(cs.getCards().size() > 0) {
+								Card c = cs.pop();
+								this.otherPlayer.removeProperty((PropertyCard)c);
+								this.currentPlayer.addProperty((PropertyCard)c);
+							}
+							this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+						}
 					} else {
 						this.otherPlayer.setBlocked(false);
 						this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
@@ -372,6 +383,9 @@ public class GameState extends ScreenState {
 					
 					System.out.println(ac);
 					if(ac.getAction().equals("steal1")) {
+						this.highlightEnemyProperties = true;
+						this.actionCard = ac;
+					} else if(ac.getAction().equals("steal3")) {
 						this.highlightEnemyProperties = true;
 						this.actionCard = ac;
 					} else {

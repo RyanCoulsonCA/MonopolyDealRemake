@@ -69,10 +69,23 @@ public class Player {
 		boolean exists = false;
 		
 		for(CardStack cs: this.properties) {
-			System.out.println(cs.getColor().equals(card.getColor()));
+			PropertyCard wild = null;
+			
 			if(cs.getColor().equals(card.getColor())) {
-				cs.addCard(card);
+				for(PropertyCard c: cs.getCards()) {
+					if(c.getType().equals("wild") && cs.isFull()) {
+						wild = c;
+					}
+				}
 				exists = true;
+				
+				if(wild != null) {
+					this.hand.add(wild);
+					cs.removeCard(wild);
+					cs.addCard(card);
+				} else {
+					cs.addCard(card);
+				}
 			}
 		}
 		

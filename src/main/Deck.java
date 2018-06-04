@@ -97,7 +97,12 @@ public class Deck {
 	}
 	
 	public Card pop() {
-		return this.cards.remove(0);
+		try {
+			return this.cards.remove(0);
+		} catch(Exception e) {
+			System.out.println("Deck is empty. " + this.getDeckSize());
+			return null;
+		}
 	}
 	
 	public ArrayList<Card> getDeck() {
@@ -110,14 +115,5 @@ public class Deck {
 	
 	public void shuffle() {
 		Collections.shuffle(this.cards);
-	}
-	
-	public static void main(String[] args) {
-		Deck deck = new Deck("Assets/test.txt");
-		deck.parseDeck();
-		
-		deck.shuffle();
-		
-		System.out.println("Deck size: " + deck.getDeckSize());	
 	}
 }

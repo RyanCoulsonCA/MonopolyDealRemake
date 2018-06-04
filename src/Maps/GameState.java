@@ -50,7 +50,7 @@ public class GameState extends ScreenState {
 		this.cardBounds = new ArrayList<CardButton>();
 		this.highlightBounds = new ArrayList<CardButton>();
 		
-		this.deck = new Deck("Assets/base_deck.txt");
+		this.deck = new Deck("Assets/test.txt");
 		this.deck.parseDeck();
 		this.deck.shuffle();
 		

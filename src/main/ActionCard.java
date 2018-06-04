@@ -88,6 +88,11 @@ public class ActionCard extends Card {
 				}
 			} else if(this.action.equals("birthday")) {
 				int sentValue = 0;
+				
+				if(user.getHand().size() < 7) {
+					user.addHand(deck.pop());
+				}
+				
 				if(target.getTreasury() >= BIRTHDAY) {
 					target.subTreasury(BIRTHDAY);
 					user.addTreasury(BIRTHDAY);
@@ -106,10 +111,6 @@ public class ActionCard extends Card {
 						} else {
 							break;
 						}
-					}
-					
-					if(user.getHand().size() < 7) {
-						user.addHand(deck.pop());
 					}
 				}
 			}

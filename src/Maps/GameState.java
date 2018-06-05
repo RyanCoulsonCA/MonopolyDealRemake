@@ -324,6 +324,7 @@ public class GameState extends ScreenState {
 				
 				if(this.highlightBounds.get(i).wasLeftClicked(me)) {
 					this.selectedWild.setColor(cs.getColor());
+					this.selectedWild.setPrices(cs.getPrices());
 					cs.addCard(this.selectedWild);
 					this.currentPlayer.removeHand(this.selectedWild);
 					this.highlightPlayerProperties = false;

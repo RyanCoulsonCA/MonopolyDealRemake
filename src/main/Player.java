@@ -1,4 +1,5 @@
 package main;
+import java.awt.Color;
 import java.util.ArrayList;
 
 public class Player {
@@ -81,6 +82,8 @@ public class Player {
 				
 				if(wild != null) {
 					this.hand.add(wild);
+					wild.setColor(Color.BLACK);
+					wild.setPrices(null);
 					cs.removeCard(wild);
 					cs.addCard(card);
 				} else {

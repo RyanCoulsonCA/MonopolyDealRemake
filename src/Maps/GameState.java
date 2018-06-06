@@ -19,6 +19,7 @@ import main.CardButton;
 import main.CardStack;
 import main.Deck;
 import main.ImageButton;
+import main.Notification;
 import main.Player;
 import main.PropertyCard;
 
@@ -70,11 +71,7 @@ public class GameState extends ScreenState {
 	}
 
 	@Override
-	public void draw(Graphics2D g) {
-		if(this.currentPlayer.getMovesLeft() == 0) {
-			this.nextTurn();
-		}
-		
+	public void draw(Graphics2D g) {	
 		this.buttonBounds = new ArrayList<ImageButton>();
 		this.cardBounds = new ArrayList<CardButton>();
 		this.highlightBounds = new ArrayList<CardButton>();
@@ -211,6 +208,11 @@ public class GameState extends ScreenState {
     	new Card("Test","action", 5).draw(g, 50, 320);
     	*/
     	
+		if(this.currentPlayer.getMovesLeft() == 0) {
+			System.out.println("draw");
+			Notification nextTurn = new Notification(g, "Click to end turn", 20, 430, 110, 25);
+		}
+    	
     	// Action buttons
     	ImageButton endTurn = new ImageButton("Assets/Images/wooden_btn.png", 20, 470, 100, 60, g);
     	endTurn.draw();
@@ -311,124 +313,127 @@ public class GameState extends ScreenState {
 			}
 		}
 		
-		// right click to cancel wild card selection
-		if(SwingUtilities.isRightMouseButton(me)) {
-			if(this.highlightPlayerProperties) {
-				this.highlightPlayerProperties = false;
-				this.selectedWild = null;
-			}
-		}
-		
-		// check for wild card clicks first
-		if(this.highlightPlayerProperties) {
-			for(int i = 0; i < this.highlightBounds.size(); i++) {
-				CardStack cs = this.highlightBounds.get(i).getCardStack();
-				
-				if(this.highlightBounds.get(i).wasLeftClicked(me)) {
-						if(this.selectedWild != null) {
-							this.selectedWild.setColor(cs.getColor());
-							this.selectedWild.setPrices(cs.getPrices());
-							cs.addCard(this.selectedWild);
-							this.currentPlayer.removeHand(this.selectedWild);
-							this.highlightPlayerProperties = false;
-							this.selectedWild = null;
-							this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
-						} else if(this.actionCard.getAction().equals("trade")) {
-							this.selectedTrade = cs.getCards().get(cs.getCards().size()-1);
-							this.highlightPlayerProperties = false;
-							this.highlightEnemyProperties = true;
-							this.wait = true;
-						}
-					
+		System.out.println(this.currentPlayer.getMovesLeft());
+		if(this.currentPlayer.getMovesLeft() > 0) {
+			// right click to cancel wild card selection
+			if(SwingUtilities.isRightMouseButton(me)) {
+				if(this.highlightPlayerProperties) {
+					this.highlightPlayerProperties = false;
+					this.selectedWild = null;
 				}
 			}
-		}
+			
+			// check for wild card clicks first
+			if(this.highlightPlayerProperties) {
+				for(int i = 0; i < this.highlightBounds.size(); i++) {
+					CardStack cs = this.highlightBounds.get(i).getCardStack();
+					
+					if(this.highlightBounds.get(i).wasLeftClicked(me)) {
+							if(this.selectedWild != null) {
+								this.selectedWild.setColor(cs.getColor());
+								this.selectedWild.setPrices(cs.getPrices());
+								cs.addCard(this.selectedWild);
+								this.currentPlayer.removeHand(this.selectedWild);
+								this.highlightPlayerProperties = false;
+								this.selectedWild = null;
+								this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+							} else if(this.actionCard.getAction().equals("trade")) {
+								this.selectedTrade = cs.getCards().get(cs.getCards().size()-1);
+								this.highlightPlayerProperties = false;
+								this.highlightEnemyProperties = true;
+								this.wait = true;
+							}
+						
+					}
+				}
+			}
+			
+			// reset wild card selection if clicked
+			this.highlightPlayerProperties = false;
+			this.selectedWild = null;
 		
-		// reset wild card selection if clicked
-		this.highlightPlayerProperties = false;
-		this.selectedWild = null;
-	
-		// check for action card clicks
-		if(this.highlightEnemyProperties) {		
-			for(int i = 0; i < this.highlightBounds.size(); i++) {
-				CardStack cs = this.highlightBounds.get(i).getCardStack();
-				
-				if(this.highlightBounds.get(i).wasLeftClicked(me)) {
-					if(!this.otherPlayer.isBlocking()) {
-						if(this.actionCard.getAction().equals("steal1")) {
-							Card c = cs.pop();
-							this.otherPlayer.removeProperty((PropertyCard)c);
-							this.currentPlayer.addProperty((PropertyCard)c);
-							this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
-						} else if(this.actionCard.getAction().equals("steal3")) {
-							while(cs.getCards().size() > 0) {
+			// check for action card clicks
+			if(this.highlightEnemyProperties) {		
+				for(int i = 0; i < this.highlightBounds.size(); i++) {
+					CardStack cs = this.highlightBounds.get(i).getCardStack();
+					
+					if(this.highlightBounds.get(i).wasLeftClicked(me)) {
+						if(!this.otherPlayer.isBlocking()) {
+							if(this.actionCard.getAction().equals("steal1")) {
 								Card c = cs.pop();
 								this.otherPlayer.removeProperty((PropertyCard)c);
 								this.currentPlayer.addProperty((PropertyCard)c);
-							}
-							this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
-						} else if(this.actionCard.getAction().equals("trade")) {
-							if(!this.wait) {
-								PropertyCard tradeFor = (PropertyCard)cs.pop();
-								this.currentPlayer.removeProperty(selectedTrade);
-								this.otherPlayer.removeProperty(tradeFor);
-								
-								this.currentPlayer.addProperty(tradeFor);
-								this.otherPlayer.addProperty(selectedTrade);
 								this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+							} else if(this.actionCard.getAction().equals("steal3")) {
+								while(cs.getCards().size() > 0) {
+									Card c = cs.pop();
+									this.otherPlayer.removeProperty((PropertyCard)c);
+									this.currentPlayer.addProperty((PropertyCard)c);
+								}
+								this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+							} else if(this.actionCard.getAction().equals("trade")) {
+								if(!this.wait) {
+									PropertyCard tradeFor = (PropertyCard)cs.pop();
+									this.currentPlayer.removeProperty(selectedTrade);
+									this.otherPlayer.removeProperty(tradeFor);
+									
+									this.currentPlayer.addProperty(tradeFor);
+									this.otherPlayer.addProperty(selectedTrade);
+									this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+								}
 							}
+						} else {
+							this.otherPlayer.setBlocked(false);
+							this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
 						}
-					} else {
-						this.otherPlayer.setBlocked(false);
-						this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
-					}
-					
-					if(!wait) {
-						this.currentPlayer.removeHand(actionCard);
+						
+						if(!wait) {
+							this.currentPlayer.removeHand(actionCard);
+						}
 					}
 				}
 			}
-		}
-		
-		// reset action card selection if clicked
-		if(!wait) {
-			this.highlightEnemyProperties = false;
-			this.actionCard = null;
-		}
-		
-		// check to see if a card was clicked
-		for(int i = 0; i < this.cardBounds.size(); i++) {
-			CardButton cardBtn = this.cardBounds.get(i);
-			Card card = cardBtn.getCard();
 			
-			if(cardBtn.wasLeftClicked(me)) {
-				if(card.getType().equals("action") && !card.getName().equals("Tariffs")) {
-					ActionCard ac = (ActionCard)card;
-					
-					System.out.println(ac);
-					if(ac.getAction().equals("steal1")) {
-						this.highlightEnemyProperties = true;
-						this.actionCard = ac;
-					} else if(ac.getAction().equals("steal3")) {
-						this.highlightEnemyProperties = true;
-						this.actionCard = ac;
-					} else if(ac.getAction().equals("trade")) {
-						this.highlightPlayerProperties = true;
-						this.actionCard = ac;
-					} else {
+			// reset action card selection if clicked
+			if(!wait) {
+				this.highlightEnemyProperties = false;
+				this.actionCard = null;
+			}
+			
+			// check to see if a card was clicked
+			for(int i = 0; i < this.cardBounds.size(); i++) {
+				CardButton cardBtn = this.cardBounds.get(i);
+				Card card = cardBtn.getCard();
+				
+				if(cardBtn.wasLeftClicked(me)) {
+					if(card.getType().equals("action") && !card.getName().equals("Tariffs")) {
+						ActionCard ac = (ActionCard)card;
+						
+						System.out.println(ac);
+						if(ac.getAction().equals("steal1")) {
+							this.highlightEnemyProperties = true;
+							this.actionCard = ac;
+						} else if(ac.getAction().equals("steal3")) {
+							this.highlightEnemyProperties = true;
+							this.actionCard = ac;
+						} else if(ac.getAction().equals("trade")) {
+							this.highlightPlayerProperties = true;
+							this.actionCard = ac;
+						} else {
+							card.use(this.currentPlayer, this.otherPlayer, this.deck);
+							this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+						}
+					} else if(card.getType() != "wild") {
 						card.use(this.currentPlayer, this.otherPlayer, this.deck);
 						this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+					} else {
+						this.highlightPlayerProperties = true;
+						this.selectedWild = (PropertyCard)card;
 					}
-				} else if(card.getType() != "wild") {
-					card.use(this.currentPlayer, this.otherPlayer, this.deck);
+				} else if(cardBtn.wasRightClicked(me)) {
+					card.bank(this.currentPlayer);
 					this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
-				} else {
-					this.highlightPlayerProperties = true;
-					this.selectedWild = (PropertyCard)card;
 				}
-			} else if(cardBtn.wasRightClicked(me)) {
-				card.bank(this.currentPlayer);
-				this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
 			}
 		}
 	}

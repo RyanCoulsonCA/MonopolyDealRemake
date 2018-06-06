@@ -208,10 +208,6 @@ public class GameState extends ScreenState {
     	new Card("Test","action", 5).draw(g, 50, 320);
     	*/
     	
-		if(this.currentPlayer.getMovesLeft() == 0) {
-			System.out.println("draw");
-			Notification nextTurn = new Notification(g, "Click to end turn", 20, 430, 110, 25);
-		}
     	
     	// Action buttons
     	ImageButton endTurn = new ImageButton("Assets/Images/wooden_btn.png", 20, 470, 100, 60, g);
@@ -270,6 +266,11 @@ public class GameState extends ScreenState {
     		
     		x_offset += 110;
     	}
+    	
+		if(this.currentPlayer.getMovesLeft() == 0) {
+			System.out.println("draw");
+			Notification nextTurn = new Notification(g, "Click to end turn", 20, 430, 110, 25);
+		}
 	}
 	
 	public void nextTurn() {

@@ -8,12 +8,13 @@ import java.util.Collections;
 public class Deck {
 
 	private String file;
-	private ArrayList<Card> cards;
+	private ArrayList<Card> cards, used;
 	//private Settings settings;
 	
 	public Deck(String file) {
 		this.file = file;
 		this.cards = new ArrayList<Card>();
+		this.used = new ArrayList<Card>();
 	}
 	
 	public void parseDeck() {
@@ -100,8 +101,12 @@ public class Deck {
 		try {
 			return this.cards.remove(0);
 		} catch(Exception e) {
-			System.out.println("Deck is empty. " + this.getDeckSize());
-			return null;
+			for(Card c: this.used) {
+				this.cards.add(c);
+				this.used.remove(c);
+			}
+			this.shuffle();
+			return this.cards.remove(0);
 		}
 	}
 	

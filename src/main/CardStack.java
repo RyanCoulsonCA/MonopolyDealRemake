@@ -114,4 +114,14 @@ public class CardStack {
 		return lowestCard;
 	}
 	
+	public boolean hasWild() {
+		for(Card c: this.stack) {
+			PropertyCard card = (PropertyCard)c;
+			if(card.getType().equals("wild")) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }

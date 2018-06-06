@@ -32,8 +32,8 @@ public class GameState extends ScreenState {
 	private ArrayList<CardButton> highlightBounds;
 	private String[] buttons = new String[] {"next", "quit"};
 	private Deck deck;
-	private boolean highlightPlayerProperties, highlightEnemyProperties;
-	private PropertyCard selectedWild;
+	private boolean highlightPlayerProperties, highlightEnemyProperties, wait;
+	private PropertyCard selectedWild, selectedTrade;
 	private ActionCard actionCard;
 	
 	public GameState(StateManager sm) {
@@ -296,6 +296,8 @@ public class GameState extends ScreenState {
 	
 	@Override
 	public void mouseClicked(MouseEvent me) {
+		this.wait = false;
+		
 		if(SwingUtilities.isLeftMouseButton(me)) {
 			// check action buttons first
 			for(int i = 0; i < this.buttonBounds.size(); i++) {
@@ -323,13 +325,21 @@ public class GameState extends ScreenState {
 				CardStack cs = this.highlightBounds.get(i).getCardStack();
 				
 				if(this.highlightBounds.get(i).wasLeftClicked(me)) {
-					this.selectedWild.setColor(cs.getColor());
-					this.selectedWild.setPrices(cs.getPrices());
-					cs.addCard(this.selectedWild);
-					this.currentPlayer.removeHand(this.selectedWild);
-					this.highlightPlayerProperties = false;
-					this.selectedWild = null;
-					this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+						if(this.selectedWild != null) {
+							this.selectedWild.setColor(cs.getColor());
+							this.selectedWild.setPrices(cs.getPrices());
+							cs.addCard(this.selectedWild);
+							this.currentPlayer.removeHand(this.selectedWild);
+							this.highlightPlayerProperties = false;
+							this.selectedWild = null;
+							this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+						} else if(this.actionCard.getAction().equals("trade")) {
+							this.selectedTrade = cs.getCards().get(cs.getCards().size()-1);
+							this.highlightPlayerProperties = false;
+							this.highlightEnemyProperties = true;
+							this.wait = true;
+						}
+					
 				}
 			}
 		}
@@ -357,19 +367,34 @@ public class GameState extends ScreenState {
 								this.currentPlayer.addProperty((PropertyCard)c);
 							}
 							this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+						} else if(this.actionCard.getAction().equals("trade")) {
+							if(!this.wait) {
+								PropertyCard tradeFor = (PropertyCard)cs.pop();
+								this.currentPlayer.removeProperty(selectedTrade);
+								this.otherPlayer.removeProperty(tradeFor);
+								
+								this.currentPlayer.addProperty(tradeFor);
+								this.otherPlayer.addProperty(selectedTrade);
+								this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
+							}
 						}
 					} else {
 						this.otherPlayer.setBlocked(false);
 						this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
 					}
-					this.currentPlayer.removeHand(actionCard);
+					
+					if(!wait) {
+						this.currentPlayer.removeHand(actionCard);
+					}
 				}
 			}
 		}
 		
 		// reset action card selection if clicked
-		this.highlightEnemyProperties = false;
-		this.actionCard = null;
+		if(!wait) {
+			this.highlightEnemyProperties = false;
+			this.actionCard = null;
+		}
 		
 		// check to see if a card was clicked
 		for(int i = 0; i < this.cardBounds.size(); i++) {
@@ -386,6 +411,9 @@ public class GameState extends ScreenState {
 						this.actionCard = ac;
 					} else if(ac.getAction().equals("steal3")) {
 						this.highlightEnemyProperties = true;
+						this.actionCard = ac;
+					} else if(ac.getAction().equals("trade")) {
+						this.highlightPlayerProperties = true;
 						this.actionCard = ac;
 					} else {
 						card.use(this.currentPlayer, this.otherPlayer, this.deck);

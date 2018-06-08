@@ -71,10 +71,9 @@ public class ActionCard extends Card {
 				g.drawString("add one card", x+13, y+55);
 				g.drawString("to your hand", x+15, y+70);
 			} else if(this.action.equals("no")) {
-				g.drawString("Block any", x+23, y+40);
-				g.drawString("action card your", x+7, y+55);
-				g.drawString("opponent uses", x+8, y+70);
-				g.drawString("on you", x+30, y+85);
+				g.drawString("Block opponent", x+8, y+40);
+				g.drawString("action card use", x+8, y+55);
+				g.drawString("for two turns", x+15, y+70);
 			} else {
 				g.drawString("Click this card", x+10, y+40);
 				g.drawString("to add it to", x+20, y+55);

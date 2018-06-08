@@ -24,6 +24,7 @@ public class CardStack {
 	}
 	
 	public void addCard(PropertyCard c) {
+		c.setHover(false);
 		this.stack.add(c);
 	}
 	

@@ -79,6 +79,8 @@ public class GameState extends ScreenState {
 			sm.setState(3);
 		}
 		
+
+		
 		this.buttonBounds = new ArrayList<ImageButton>();
 		this.cardBounds = new ArrayList<CardButton>();
 		this.highlightBounds = new ArrayList<CardButton>();
@@ -204,17 +206,6 @@ public class GameState extends ScreenState {
 	    	g.setColor(regc);
 	    	g.setStroke(regs);
     	}
-    	
-    	/* Blank Cards 
-    	new Card("Test","action", 5).draw(g, 50, 80);
-    	new Card("Test","action", 5).draw(g, 50, 100);
-    	new Card("Test","action", 5).draw(g, 50, 120);
- 
-    	new Card("Test","action", 5).draw(g, 50, 280);
-    	new Card("Test","action", 5).draw(g, 50, 300);
-    	new Card("Test","action", 5).draw(g, 50, 320);
-    	*/
-    	
     	
     	// Action buttons
     	ImageButton endTurn = new ImageButton("Assets/Images/wooden_btn.png", 20, 470, 100, 60, g);
@@ -491,6 +482,23 @@ public class GameState extends ScreenState {
 	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent me) {
+		for(CardButton cb: this.cardBounds) {
+			if(cb.isHovering(me)) {
+				cb.getCard().setHover(true);
+			} else {
+				cb.getCard().setHover(false);
+			}
+		}
 	}
 
 }

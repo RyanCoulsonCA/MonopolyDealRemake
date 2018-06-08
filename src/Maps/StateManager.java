@@ -95,4 +95,12 @@ public class StateManager {
 	public void mouseReleased(MouseEvent me) {
 		states.get(this.currentState).mouseReleased(me);
 	}
+	
+	public void mouseMoved(MouseEvent me) {
+		states.get(this.currentState).mouseMoved(me);
+	}
+	
+	public void mouseDragged(MouseEvent me) {
+		states.get(this.currentState).mouseDragged(me);
+	}
 }

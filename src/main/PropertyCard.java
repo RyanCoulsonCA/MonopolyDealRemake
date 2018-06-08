@@ -51,79 +51,81 @@ public class PropertyCard extends Card {
 		Color oldColor = g.getColor();
 		Font oldFont = g.getFont();
 		Stroke oldStroke = g.getStroke();
-
-		try {
-			wild = ImageIO.read(new File("Assets/Images/wildcard_img.png"));		
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
 		
-		
-		// Draw physical card
-		g.setColor(Color.WHITE);
-		g.fillRect(x, y, 100, 160);
-		
-		g.setColor(Color.BLACK);
-		g.setStroke(new BasicStroke(2));
-		g.drawRect(x, y, 100, 160);
-		
-		// Draw property
-		
-		if(this.type != "wild") {
-			g.setColor(this.color);
-			g.fillRect(x+4, y + 5, 92, 30);	
-
+		if(this.hovering) {
+			// Draw physical card
+			g.setColor(new Color(15, 15, 15));
+			g.fillRect(x, y, 100, 160);
+			
 			g.setColor(Color.BLACK);
-			g.drawRect(x+4, y+5, 92, 30);
-		} else {
-			if(this.color == Color.BLACK) {
-				g.drawImage(wild, x+3, y+5, null);
+			g.setStroke(new BasicStroke(2));
+			g.drawRect(x, y, 100, 160);
+			
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("Dialog", Font.PLAIN, 12));
+			
+			// Card info
+			if(this.type != "wild") {
+				g.drawString("Click this card", x+10, y+40);
+				g.drawString("to add it to", x+20, y+55);
+				g.drawString("your property set", x+5, y+70);
 			} else {
+				g.drawString("Click this card", x+10, y+40);
+				g.drawString("to add it to", x+20, y+55);
+				g.drawString("any property set", x+5, y+70);
+			}
+			
+			g.drawString("Right-click to", x+13, y+125);
+			g.drawString("bank", x+37, y+140);
+		} else {
+	
+			try {
+				wild = ImageIO.read(new File("Assets/Images/wildcard_img.png"));		
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+			// Draw physical card
+			g.setColor(Color.WHITE);
+			g.fillRect(x, y, 100, 160);
+			
+			g.setColor(Color.BLACK);
+			g.setStroke(new BasicStroke(2));
+			g.drawRect(x, y, 100, 160);
+			
+			// Draw property
+			
+			if(this.type != "wild") {
 				g.setColor(this.color);
 				g.fillRect(x+4, y + 5, 92, 30);	
-
+	
 				g.setColor(Color.BLACK);
 				g.drawRect(x+4, y+5, 92, 30);
-			}
-		}
-		// Draw card name
-		g.setStroke(oldStroke);
-		
-		g.setFont(new Font("Dialog", Font.PLAIN, 13));
-		
-		FontMetrics fm = g.getFontMetrics();
-		g.drawString(this.name, x + 52 - fm.stringWidth(this.name)/2, y + 25);
-
-		
-		// Draw prices
-
-		
-		if(this.type != "wild") {
-			int temp = y+50;
-			for(int i = 0; i < this.prices.length; i++) {
-				if(!this.prices[i].equals("n/a")) {
-					g.drawRect(x+5, temp, 20, 20);
-					g.drawString(Integer.toString(i+1), x+12, temp+15);
-				
-					if(i == this.prices.length-1 || this.prices[i+1].equals("n/a")) {
-						g.setFont(new Font("Dialog", Font.PLAIN, 10));
-						g.drawString("full set", x+32,temp+6);
-					}
-					
-					g.setFont(new Font("Dialog", Font.PLAIN, 13));
-					g.drawString("........", x+32, temp+10);
-					g.setFont(new Font("Dialog", Font.PLAIN, 12));
-					g.drawString(this.prices[i] + "M", x+67, temp+13);
-					temp+= 25;
+			} else {
+				if(this.color == Color.BLACK) {
+					g.drawImage(wild, x+3, y+5, null);
+				} else {
+					g.setColor(this.color);
+					g.fillRect(x+4, y + 5, 92, 30);	
+	
+					g.setColor(Color.BLACK);
+					g.drawRect(x+4, y+5, 92, 30);
 				}
 			}
-		} else {
-			if(this.color == Color.BLACK) {
-				g.setFont(new Font("Dialog", Font.PLAIN, 11));
-				g.drawString("This card may", x+17, y+70);
-				g.drawString("be used on any", x+14, y+82);
-				g.drawString("set of properties.", x+11, y+94);
-			} else {
+			// Draw card name
+			g.setStroke(oldStroke);
+			
+			g.setFont(new Font("Dialog", Font.PLAIN, 13));
+			
+			FontMetrics fm = g.getFontMetrics();
+			g.drawString(this.name, x + 52 - fm.stringWidth(this.name)/2, y + 25);
+	
+			
+			// Draw prices
+	
+			
+			if(this.type != "wild") {
 				int temp = y+50;
 				for(int i = 0; i < this.prices.length; i++) {
 					if(!this.prices[i].equals("n/a")) {
@@ -142,20 +144,47 @@ public class PropertyCard extends Card {
 						temp+= 25;
 					}
 				}
+			} else {
+				if(this.color == Color.BLACK) {
+					g.setFont(new Font("Dialog", Font.PLAIN, 11));
+					g.drawString("This card may", x+17, y+70);
+					g.drawString("be used on any", x+14, y+82);
+					g.drawString("set of properties.", x+11, y+94);
+				} else {
+					int temp = y+50;
+					for(int i = 0; i < this.prices.length; i++) {
+						if(!this.prices[i].equals("n/a")) {
+							g.drawRect(x+5, temp, 20, 20);
+							g.drawString(Integer.toString(i+1), x+12, temp+15);
+						
+							if(i == this.prices.length-1 || this.prices[i+1].equals("n/a")) {
+								g.setFont(new Font("Dialog", Font.PLAIN, 10));
+								g.drawString("full set", x+32,temp+6);
+							}
+							
+							g.setFont(new Font("Dialog", Font.PLAIN, 13));
+							g.drawString("........", x+32, temp+10);
+							g.setFont(new Font("Dialog", Font.PLAIN, 12));
+							g.drawString(this.prices[i] + "M", x+67, temp+13);
+							temp+= 25;
+						}
+					}
+				}
 			}
+			
+	
+			// Draw card type
+			g.setFont(new Font("Dialog", Font.PLAIN, 11));
+			g.drawString("worth " + this.value + "M", x + 30, y + 150);
 		}
 		
-
-		// Draw card type
-		g.setFont(new Font("Dialog", Font.PLAIN, 11));
-		g.drawString("worth " + this.value + "M", x + 30, y + 150);
-			
 		g.setColor(oldColor);
 		g.setFont(oldFont);
 		g.setStroke(oldStroke);
 	}
 	
 	public void use(Player user, Player target, Deck deck) {
+		this.hovering = false;
 		if(this.type != "wild") {
 			user.addProperty(this);
 			user.removeHand(this);
@@ -163,6 +192,7 @@ public class PropertyCard extends Card {
 	}
 	
 	public void bank(Player user) {
+		this.hovering = false;
 		user.addTreasury(this.value);
 		user.removeHand(this);
 	}

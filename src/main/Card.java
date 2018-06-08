@@ -5,17 +5,20 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
+import java.awt.event.MouseEvent;
 
 public class Card {
 
 	protected String name;
 	protected String type;
 	protected int value;
+	protected boolean hovering;
 	
 	public Card(String name, String type, int value) {
 		this.name = name;
 		this.type = type;
 		this.value = value;
+		this.hovering = false;
 	}
 
 	public String getName() { return this.name; }
@@ -40,4 +43,8 @@ public class Card {
 	}
 	public void use(Player user, Player target, Deck deck) { }
 	public void bank(Player user) { }
+	public void setHover(boolean b) {
+		this.hovering = b;
+	}
+	public void hover() { }
 }

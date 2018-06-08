@@ -7,12 +7,13 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
 
 import Maps.StateManager;
 
-public class GamePanel extends JPanel implements MouseListener {
+public class GamePanel extends JPanel implements MouseListener, MouseMotionListener {
 	public static final int WIDTH = 1024;
 	public static final int HEIGHT = 650;
 	public static final float VERSION = 0.1f;
@@ -30,6 +31,7 @@ public class GamePanel extends JPanel implements MouseListener {
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		setFocusable(true);
 		addMouseListener(this);
+		addMouseMotionListener(this);
 		requestFocus();
 		
 		this.sm = new StateManager();
@@ -77,6 +79,19 @@ public class GamePanel extends JPanel implements MouseListener {
 	public void mouseReleased(MouseEvent me) {
 		// TODO Auto-generated method stub
 		sm.mouseReleased(me);
+	}
+
+	@Override
+	public void mouseDragged(MouseEvent me) {
+		// TODO Auto-generated method stub
+		sm.mouseDragged(me);
+	}
+
+	@Override
+	public void mouseMoved(MouseEvent me) {
+		// TODO Auto-generated method stub
+		sm.mouseMoved(me);
+		this.repaint();
 	}
 	
 }

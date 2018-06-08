@@ -63,4 +63,13 @@ public class CardButton {
 		}
 		return false;
 	}
+	
+	public boolean isHovering(MouseEvent me) {
+		if(me.getX() >= xpos && me.getX() <= (xpos + width)) {
+			if(me.getY() >= ypos && me.getY() <= (ypos+height)) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

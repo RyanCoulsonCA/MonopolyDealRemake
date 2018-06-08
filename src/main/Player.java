@@ -104,7 +104,7 @@ public class Player {
 		CardStack toRemove = null;
 		
 		for(CardStack cs: this.properties) {
-			System.out.println(cs + " " + card);
+			//System.out.println(cs + " " + card);
 			if(cs.getColor().equals(card.getColor())) {
 				cs.removeCard(card);
 				
@@ -151,7 +151,7 @@ public class Player {
 		
 		
 		if(this.properties.size() == 0) {
-			System.out.println("returning null");
+			//System.out.println("returning null");
 			return null;
 		}
 		

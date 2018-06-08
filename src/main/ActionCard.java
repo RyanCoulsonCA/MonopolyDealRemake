@@ -112,6 +112,8 @@ public class ActionCard extends Card {
 	}
 	
 	public void use(Player user, Player target, Deck deck) {
+		deck.addUsed(this);
+		
 		if(this.action.equals("draw")) {
 			for(int i = 0; i < 2; i++) {
 				if(user.getHand().size() < 7) {

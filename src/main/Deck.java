@@ -97,14 +97,19 @@ public class Deck {
 		this.cards.add(card);
 	}
 	
+	public void addUsed(Card card) {
+		this.used.add(card);
+	}
+	
 	public Card pop() {
 		try {
 			return this.cards.remove(0);
 		} catch(Exception e) {
 			for(Card c: this.used) {
 				this.cards.add(c);
-				this.used.remove(c);
 			}
+			System.out.println("reset");
+			this.used = new ArrayList<Card>();
 			this.shuffle();
 			return this.cards.remove(0);
 		}

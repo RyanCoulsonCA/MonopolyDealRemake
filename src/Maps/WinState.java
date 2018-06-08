@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -29,6 +28,8 @@ public class WinState extends ScreenState {
 	
 	@Override
 	public void draw(Graphics2D g) {
+		this.buttonBounds = new ArrayList<ImageButton>();
+		
 		// Get winner
 		this.winner = sm.getWinner();
 		
@@ -43,8 +44,6 @@ public class WinState extends ScreenState {
     	}
     	
     	Font reg = g.getFont();
-    	Color regc = g.getColor();
-    	Stroke regs = g.getStroke();
     	FontMetrics fm = g.getFontMetrics();
     	
     	// Background

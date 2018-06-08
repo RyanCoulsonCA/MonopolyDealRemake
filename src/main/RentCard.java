@@ -97,6 +97,7 @@ public class RentCard extends Card {
 	}
 	
 	public void use(Player user, Player target, Deck d) {	
+		d.addUsed(this);
 		int total = 0;
 		
 		for(CardStack cs: user.getProperties()) {

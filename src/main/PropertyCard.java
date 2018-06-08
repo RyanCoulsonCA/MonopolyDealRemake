@@ -75,8 +75,8 @@ public class PropertyCard extends Card {
 				g.drawString("any property set", x+5, y+70);
 			}
 			
-			g.drawString("Right-click to", x+13, y+125);
-			g.drawString("bank", x+37, y+140);
+			g.drawString("Right-click to", x+13, y+140);
+			g.drawString("bank", x+37, y+155);
 		} else {
 	
 			try {

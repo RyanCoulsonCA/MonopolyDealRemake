@@ -25,28 +25,87 @@ public class ActionCard extends Card {
 		Font oldFont = g.getFont();
 		Stroke oldStroke = g.getStroke();
 		
-		
-		// Draw physical card
-		g.setColor(new Color(255, 220, 220));
-		g.fillRect(x, y, 100, 160);
-		
-		g.setColor(Color.BLACK);
-		g.setStroke(new BasicStroke(2));
-		g.drawRect(x, y, 100, 160);
-		
-		// Draw price
-		g.drawString(Integer.toString(this.value) + "M", x+5, y+15);
-
-		// Draw card name
-		FontMetrics fm = g.getFontMetrics();
-		
-		g.setFont(new Font("Dialog", Font.PLAIN, 13));
-		g.drawString(this.name, x + 52 - fm.stringWidth(this.name)/2, y + 75);
-		
-		// Draw card type
-		g.setFont(new Font("Dialog", Font.PLAIN, 11));
-		g.drawString("action card", x + 23, y + 150);
+		if(this.hovering) {
+			// Draw physical card
+			g.setColor(new Color(15, 15, 15));
+			g.fillRect(x, y, 100, 160);
 			
+			g.setColor(Color.BLACK);
+			g.setStroke(new BasicStroke(2));
+			g.drawRect(x, y, 100, 160);
+			
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("Dialog", Font.PLAIN, 12));
+			
+			// Card info
+			if(this.action.equals("draw")) {
+				g.drawString("Draw two cards", x+8, y+40);
+				g.drawString("from deck and", x+10, y+55);
+				g.drawString("add to your hand", x+5, y+70);
+			} else if(this.action.equals("steal1")) {
+				g.drawString("Steal one card", x+11, y+40);
+				g.drawString("from your", x+25, y+55);
+				g.drawString("opponents hand", x+5, y+70);
+			} else if(this.action.equals("trade")) {
+				g.drawString("Select one card", x+8, y+40);
+				g.drawString("from your hand", x+10, y+55);
+				g.drawString("to swap with your", x+4, y+70);
+				g.drawString("opponents hand", x+5, y+85);
+			} else if(this.action.equals("steal3")) {
+				g.drawString("Steal one card", x+10, y+40);
+				g.drawString("set from your", x+13, y+55);
+				g.drawString("opponents hand.", x+5, y+70);
+			} else if(this.action.equals("takemoney")) {
+				g.drawString("Steal $5M from", x+10, y+25);
+				g.drawString("your opponent. If", x+5, y+40);
+				g.drawString("they do not have", x+6, y+55);
+				g.drawString("enough money,", x+8, y+70);
+				g.drawString("take equivalent", x+8, y+85);
+				g.drawString("in property value", x+5, y+100);
+			} else if(this.action.equals("doublerent")) {
+				g.drawString("Double the", x+20, y+40);
+				g.drawString("payout of tariff", x+10, y+55);
+				g.drawString("cards", x+33, y+70);
+			} else if(this.action.equals("birthday")) {
+				g.drawString("Gain $2M and", x+12, y+40);
+				g.drawString("add one card", x+13, y+55);
+				g.drawString("to your hand", x+15, y+70);
+			} else if(this.action.equals("no")) {
+				g.drawString("Block any", x+23, y+40);
+				g.drawString("action card your", x+7, y+55);
+				g.drawString("opponent uses", x+8, y+70);
+				g.drawString("on you", x+30, y+85);
+			} else {
+				g.drawString("Click this card", x+10, y+40);
+				g.drawString("to add it to", x+20, y+55);
+				g.drawString("any property set", x+5, y+70);
+			}
+			
+			g.drawString("Right-click to", x+13, y+140);
+			g.drawString("bank", x+37, y+155);
+		} else {
+			// Draw physical card
+			g.setColor(new Color(255, 220, 220));
+			g.fillRect(x, y, 100, 160);
+			
+			g.setColor(Color.BLACK);
+			g.setStroke(new BasicStroke(2));
+			g.drawRect(x, y, 100, 160);
+			
+			// Draw price
+			g.drawString(Integer.toString(this.value) + "M", x+5, y+15);
+	
+			// Draw card name
+			FontMetrics fm = g.getFontMetrics();
+			
+			g.setFont(new Font("Dialog", Font.PLAIN, 13));
+			g.drawString(this.name, x + 52 - fm.stringWidth(this.name)/2, y + 75);
+			
+			// Draw card type
+			g.setFont(new Font("Dialog", Font.PLAIN, 11));
+			g.drawString("action card", x + 23, y + 150);
+		}
+		
 		g.setColor(oldColor);
 		g.setFont(oldFont);
 		g.setStroke(oldStroke);

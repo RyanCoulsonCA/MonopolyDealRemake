@@ -13,9 +13,11 @@ public class StateManager {
 	public static final int MENU = 0;
 	public static final int SELECT = 1;
 	public static final int GAME = 2;
+	public static final int WIN = 3;
 	
 	public Player playerOne;
 	public Player playerTwo;
+	private Player winner;
 	
 	public StateManager() {
 		this.states = new ArrayList<ScreenState>();
@@ -23,10 +25,12 @@ public class StateManager {
 		
 		this.playerOne = new Player();
 		this.playerTwo = new Player();
+		this.winner = null;
 		
 		this.states.add(new MainMenu(this));
 		this.states.add(new PlayerSelect(this));
 		this.states.add(new GameState(this));
+		this.states.add(new WinState(this));
 	}
 	
 	public Player getPlayerOne() {
@@ -37,21 +41,31 @@ public class StateManager {
 		return this.playerTwo;
 	}
 	
+	public void setWinner(Player p) {
+		this.winner = p;
+	}
+	
+	public Player getWinner() {
+		return this.winner;
+	}
+	
 	public void reset() {
 		this.states = new ArrayList<ScreenState>();
 		this.currentState = MENU;
 		
 		this.playerOne = new Player();
 		this.playerTwo = new Player();
+		this.winner = null;
 		
 		this.states.add(new MainMenu(this));
 		this.states.add(new PlayerSelect(this));
 		this.states.add(new GameState(this));
+		this.states.add(new WinState(this));
 	}
 	
 	public void setState(int state) {
 		this.currentState = state;
-		System.out.println("Set state to " + state);
+		//System.out.println("Set state to " + state);
 	}
 	
 	public int getState() {

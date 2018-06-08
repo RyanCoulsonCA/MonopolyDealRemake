@@ -37,6 +37,8 @@ public class GameState extends ScreenState {
 	private PropertyCard selectedWild, selectedTrade;
 	private ActionCard actionCard;
 	
+	private static final int WIN_BALANCE = 50;
+	
 	public GameState(StateManager sm) {
 		this.sm = sm;
 		this.playerOne = sm.getPlayerOne();
@@ -71,7 +73,12 @@ public class GameState extends ScreenState {
 	}
 
 	@Override
-	public void draw(Graphics2D g) {	
+	public void draw(Graphics2D g) {
+		
+		if(this.checkWin()) {
+			sm.setState(3);
+		}
+		
 		this.buttonBounds = new ArrayList<ImageButton>();
 		this.cardBounds = new ArrayList<CardButton>();
 		this.highlightBounds = new ArrayList<CardButton>();
@@ -268,7 +275,7 @@ public class GameState extends ScreenState {
     	}
     	
 		if(this.currentPlayer.getMovesLeft() == 0) {
-			System.out.println("draw");
+			//System.out.println("draw");
 			new Notification(g, "Click to end turn", 20, 430, 110, 25);
 		}
 	}
@@ -297,6 +304,29 @@ public class GameState extends ScreenState {
 		}
 	}
 	
+	public boolean checkWin() {
+		// check balance
+		if(this.currentPlayer.getTreasury() >= WIN_BALANCE) {
+			sm.setWinner(this.currentPlayer);
+			return true;
+		}
+		
+		// check for full sets
+		int full = 0;
+		for(CardStack cs: this.currentPlayer.getProperties()) {
+			if(cs.isFull()) {
+				full++;
+			}
+		}
+		
+		if(full >= 3) {
+			sm.setWinner(this.currentPlayer);
+			return true;
+		}
+		
+		return false;
+	}
+	
 	@Override
 	public void mouseClicked(MouseEvent me) {
 		this.wait = false;
@@ -314,7 +344,7 @@ public class GameState extends ScreenState {
 			}
 		}
 		
-		System.out.println(this.currentPlayer.getMovesLeft());
+		//System.out.println(this.currentPlayer.getMovesLeft());
 		if(this.currentPlayer.getMovesLeft() > 0) {
 			// right click to cancel wild card selection
 			if(SwingUtilities.isRightMouseButton(me)) {
@@ -410,7 +440,7 @@ public class GameState extends ScreenState {
 					if(card.getType().equals("action") && !card.getName().equals("Tariffs")) {
 						ActionCard ac = (ActionCard)card;
 						
-						System.out.println(ac);
+						//System.out.println(ac);
 						if(ac.getAction().equals("steal1")) {
 							this.highlightEnemyProperties = true;
 							this.actionCard = ac;

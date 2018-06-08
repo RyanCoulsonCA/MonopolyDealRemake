@@ -108,7 +108,7 @@ public class RentCard extends Card {
 			user.setDoubleRent(false);
 		}
 		
-		System.out.println("Charging player " + total);
+		//System.out.println("Charging player " + total);
 		
 		
 		if(!target.isBlocking()) {

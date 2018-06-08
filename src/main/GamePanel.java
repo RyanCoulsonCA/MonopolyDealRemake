@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements MouseListener {
 	
     @Override
     public void paintComponent(Graphics g) {
-    	System.out.println("paint");
+    	//System.out.println("paint");
     	Graphics2D g2 = (Graphics2D) g;
     	Font f = new Font("Default", Font.PLAIN, 14);
     	g.setFont(f);

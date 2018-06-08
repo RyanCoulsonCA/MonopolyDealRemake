@@ -56,6 +56,23 @@ National Holiday	action	2	birthday
 Veto!	action	4	no
 Veto!	action	4	no
 Veto!	action	4	no
+Veto!	action	4	no
+Veto!	action	4	no
+Veto!	action	4	no
+Veto!	action	4	no
+Veto!	action	4	no
+Veto!	action	4	no
+Veto!	action	4	no
+Veto!	action	4	no
+Veto!	action	4	no
+Veto!	action	4	no
+Veto!	action	4	no
+Veto!	action	4	no
+Veto!	action	4	no
+Veto!	action	4	no
+Veto!	action	4	no
+Veto!	action	4	no
+Veto!	action	4	no
 Tariffs	action	1	rent	254,231,15	238,57,36
 Tariffs	action	1	rent	254,231,15	238,57,36
 Tariffs	action	1	rent	247,126,35	239,56,120

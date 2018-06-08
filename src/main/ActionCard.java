@@ -111,6 +111,37 @@ public class ActionCard extends Card {
 		g.setStroke(oldStroke);
 	}
 	
+	public void drawDisabled(Graphics2D g, int x, int y) {
+		Color oldColor = g.getColor();
+		Font oldFont = g.getFont();
+		Stroke oldStroke = g.getStroke();
+		
+		// Draw physical card
+		g.setColor(new Color(170, 170, 170));
+		g.fillRect(x, y, 100, 160);
+			
+		g.setColor(new Color(200, 200, 200));
+		g.setStroke(new BasicStroke(2));
+		g.drawRect(x, y, 100, 160);
+					
+		// Draw price
+		g.drawString(Integer.toString(this.value) + "M", x+5, y+15);
+		
+		// Draw card name
+		FontMetrics fm = g.getFontMetrics();
+				
+		g.setFont(new Font("Dialog", Font.PLAIN, 13));
+		g.drawString(this.name, x + 52 - fm.stringWidth(this.name)/2, y + 75);
+					
+		// Draw card type
+		g.setFont(new Font("Dialog", Font.PLAIN, 11));
+		g.drawString("action card", x + 23, y + 150);
+		
+		g.setColor(oldColor);
+		g.setFont(oldFont);
+		g.setStroke(oldStroke);
+	}
+	
 	public void use(Player user, Player target, Deck deck) {
 		deck.addUsed(this);
 		
@@ -123,7 +154,7 @@ public class ActionCard extends Card {
 		} else if(this.action.equals("doublerent")) {
 			user.setDoubleRent(true);
 		} else if(this.action.equals("no")) {
-			user.setBlocked(true);
+			user.setBlocked();
 		} else if(!target.isBlocking()) {
 			if(this.action.equals("takemoney")) {
 				int sentValue = 0;
@@ -175,8 +206,6 @@ public class ActionCard extends Card {
 					}
 				}
 			}
-		} else {
-			target.setBlocked(false);
 		}
 		user.removeHand(this);
 	}

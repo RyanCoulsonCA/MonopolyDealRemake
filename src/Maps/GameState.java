@@ -22,6 +22,7 @@ import main.ImageButton;
 import main.Notification;
 import main.Player;
 import main.PropertyCard;
+import main.RentCard;
 
 public class GameState extends ScreenState {
 
@@ -79,8 +80,6 @@ public class GameState extends ScreenState {
 			sm.setState(3);
 		}
 		
-
-		
 		this.buttonBounds = new ArrayList<ImageButton>();
 		this.cardBounds = new ArrayList<CardButton>();
 		this.highlightBounds = new ArrayList<CardButton>();
@@ -132,7 +131,7 @@ public class GameState extends ScreenState {
     		g.drawString("X Veto", 170, 43);
     	} else {
         	g.setColor(Color.GREEN);
-        	g.drawString("✓ Veto", 170, 43);
+        	g.drawString("✓ Veto ("+this.playerOne.getBlocksLeft()+")", 170, 43);
     	}
     	
     	if(!this.playerOne.isDoubleRent()) {
@@ -185,7 +184,7 @@ public class GameState extends ScreenState {
     		g.drawString("Veto X", 800, 43);
     	} else {
         	g.setColor(Color.GREEN);
-        	g.drawString("Veto ✓", 800, 43);
+        	g.drawString("Veto ("+this.playerTwo.getBlocksLeft()+") ✓", 767, 43);
     	}
     	
     	if(!this.playerTwo.isDoubleRent()) {
@@ -257,10 +256,21 @@ public class GameState extends ScreenState {
     	// Draw player hand
     	x_offset = 532 - Math.round(this.currentPlayer.getHand().size() * 110)/2;
     	for(Card c: this.currentPlayer.getHand()) {
-    		c.draw(g, x_offset, 470);
-    		  
-    		CardButton cardBtn = new CardButton(c, 100, 160, x_offset, 470, g);
-    		this.cardBounds.add(cardBtn);
+    		if(c.getType().equals("action") && this.otherPlayer.isBlocking()) {
+    			if(!c.getName().equals("Tariffs")) {
+    				ActionCard card = (ActionCard)c;
+    	    		card.drawDisabled(g, x_offset, 470);
+    			} else {
+    				RentCard card = (RentCard)c;
+    				card.drawDisabled(g, x_offset, 470);
+    			}
+	    		
+    		} else {
+    			c.draw(g, x_offset, 470);
+    			
+    			CardButton cardBtn = new CardButton(c, 100, 160, x_offset, 470, g);
+	    		this.cardBounds.add(cardBtn);
+    		}
     		
     		x_offset += 110;
     	}
@@ -273,7 +283,7 @@ public class GameState extends ScreenState {
 	
 	public void nextTurn() {
 		this.currentPlayer.setMovesLeft(3);
-		
+				
 		this.highlightEnemyProperties = false;
 		this.highlightPlayerProperties = false;
 		this.selectedWild = null;
@@ -292,6 +302,10 @@ public class GameState extends ScreenState {
 			this.turn = 0;
 			this.currentPlayer = this.playerOne;
 			this.otherPlayer = this.playerTwo;
+		}
+		
+		if(this.currentPlayer.isBlocking()) {
+			this.currentPlayer.setBlocksLeft(this.currentPlayer.getBlocksLeft() - 1);
 		}
 	}
 	
@@ -404,9 +418,6 @@ public class GameState extends ScreenState {
 									this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
 								}
 							}
-						} else {
-							this.otherPlayer.setBlocked(false);
-							this.currentPlayer.setMovesLeft(this.currentPlayer.getMovesLeft() - 1);
 						}
 						
 						if(!wait) {

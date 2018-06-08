@@ -9,7 +9,7 @@ public class Player {
 	private ArrayList<CardStack> properties;
 	private int treasury;
 	private int moves;
-	private boolean block;
+	private int block;
 	private boolean double_rent;
 	
 	public Player() {
@@ -18,12 +18,20 @@ public class Player {
 		this.moves = 3;
 		this.hand = new ArrayList<Card>();
 		this.properties = new ArrayList<CardStack>();
-		this.block = false;
+		this.block = 0;
 		this.double_rent = false;
 	}
 	
 	public String getCountry() {
 		return this.country;
+	}
+	
+	public int getBlocksLeft() {
+		return this.block;
+	}
+	
+	public void setBlocksLeft(int b) {
+		this.block = b;
 	}
 	
 	public void setCountry(String s) {
@@ -121,11 +129,11 @@ public class Player {
 	}
 	
 	public boolean isBlocking() {
-		return this.block;
+		return this.block > 0;
 	}
 	
-	public void setBlocked(boolean b) {
-		this.block = b;
+	public void setBlocked() {
+		this.block = 2;
 	}
 	
 	public boolean isDoubleRent() {

@@ -2,6 +2,7 @@ package main;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
@@ -95,6 +96,82 @@ public class RentCard extends Card {
 		g.setFont(oldFont);
 		g.setStroke(oldStroke);
 	}
+
+	public void drawDisabled(Graphics2D g, int x, int y) {
+		
+		Color oldColor = g.getColor();
+		Font oldFont = g.getFont();
+		Stroke oldStroke = g.getStroke();
+		
+		// Draw physical card
+		g.setColor(new Color(170, 170, 170));
+		g.fillRect(x, y, 100, 160);
+			
+		g.setColor(new Color(200, 200, 200));
+		g.setStroke(new BasicStroke(2));
+		g.drawRect(x, y, 100, 160);
+					
+		// Draw price
+		g.drawString(Integer.toString(this.value) + "M", x+5, y+15);
+		
+		// Draw card name
+		FontMetrics fm = g.getFontMetrics();
+				
+		g.setFont(new Font("Dialog", Font.PLAIN, 13));
+		g.drawString(this.name, x + 52 - fm.stringWidth(this.name)/2, y + 75);
+					
+		// Draw card type
+		g.setFont(new Font("Dialog", Font.PLAIN, 11));
+		g.drawString("action card", x + 23, y + 150);
+		
+		
+		// Draw physical card
+		g.setColor(new Color(170, 170, 170));
+		g.fillRect(x, y, 100, 160);
+		
+		g.setColor(new Color(200, 200, 200));
+		g.setStroke(new BasicStroke(2));
+		g.drawRect(x, y, 100, 160);
+
+		
+		// Draw card name
+		g.setColor(new Color(220, 220, 220));
+		g.fillRect(x+20, y+20, 60, 27);
+		
+		g.setColor(new Color(120,120,120));
+		g.fillRect(x+20, y+45, 60, 27);
+		
+		g.setColor(new Color(170, 170, 170));
+		g.setStroke(new BasicStroke(12));
+		g.drawOval(x+16,y+11, 68, 69);
+		
+		g.fillOval(x+30, y+26, 40,40);
+		
+		g.setColor(Color.BLACK);		
+		g.setFont(new Font("Dialog", Font.BOLD, 12));
+		g.drawString("Rent", x+37, y+50);
+		
+		// Card text
+		g.setFont(new Font("Dialog", Font.PLAIN, 9));
+		g.drawString("Your opponent must", x+7, y+90);
+		g.drawString("pay you rent for", x+17, y+100);
+		g.drawString("properties you own", x+12, y+110);
+		g.drawString("in these colours.", x+18, y+120);
+
+		g.setFont(new Font("Dialog", Font.PLAIN, 13));
+		
+		// Draw price
+		g.drawString(Integer.toString(this.value) + "M", x+5, y+15);
+		
+		
+		// Draw card type
+		g.setFont(new Font("Dialog", Font.PLAIN, 11));
+		g.drawString("rent card", x + 30, y + 150);
+		
+		g.setColor(oldColor);
+		g.setFont(oldFont);
+		g.setStroke(oldStroke);
+	}
 	
 	public void use(Player user, Player target, Deck d) {	
 		d.addUsed(this);
@@ -151,8 +228,6 @@ public class RentCard extends Card {
 					}
 				}
 			}
-		} else {
-			target.setBlocked(false);
 		}
 		
 		user.removeHand(this);

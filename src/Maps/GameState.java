@@ -269,7 +269,7 @@ public class GameState extends ScreenState {
     	
 		if(this.currentPlayer.getMovesLeft() == 0) {
 			System.out.println("draw");
-			Notification nextTurn = new Notification(g, "Click to end turn", 20, 430, 110, 25);
+			new Notification(g, "Click to end turn", 20, 430, 110, 25);
 		}
 	}
 	

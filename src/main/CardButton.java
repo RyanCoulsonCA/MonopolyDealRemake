@@ -17,7 +17,7 @@ public class CardButton {
 		this.xpos = xpos;
 		this.ypos = ypos;
 		
-		g.drawRect(xpos, ypos, w, h);
+		//g.drawRect(xpos, ypos, w, h);
 	}
 
 	public CardButton(CardStack cs, int w, int h, int xpos, int ypos, Graphics2D g) {
